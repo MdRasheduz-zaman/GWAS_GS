@@ -67,7 +67,7 @@ $\Delta G = i r \sigma_A$ (Lesson 5). So "prediction accuracy" isn't an abstract
 cycle, all else equal. That's why the paper's "+63% for yield" is a big deal.
 
 ⚠️ **Accuracy is capped by heritability.** You can only predict the genetic part; recall
-high-$h^2$ color → $r\approx0.93$, low-$h^2$ yield → $r\approx0.6$. A low number isn't always a
+high $h^2$ color → $r\approx0.93$, low $h^2$ yield → $r\approx0.6$. A low number isn't always a
 bad model — sometimes the trait just has a low ceiling.
 
 ---

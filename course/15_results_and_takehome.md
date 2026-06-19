@@ -28,8 +28,8 @@
 - **MT across cycles:** **+63% (yield)**, **+41% (appearance)** — the headline gains.
 
 🔬 Our independent reproductions agree with the paper: GBLUP yield accuracy **0.64** (three ways,
-L7); Bonferroni threshold **2.16×10⁻⁵** (L9); high-$h^2$ color far more GWAS-detectable than
-low-$h^2$ yield (105 vs 4 hits, L9); and the across-cycle accuracy curve rising with added new-cycle
+L7); Bonferroni threshold **2.16×10⁻⁵** (L9); high $h^2$ color far more GWAS-detectable than
+low $h^2$ yield (105 vs 4 hits, L9); and the across-cycle accuracy curve rising with added new-cycle
 lines (L14, `figures/07_across_cycle.png`).
 
 ---
@@ -61,7 +61,7 @@ And the corollary that makes GBLUP's humility a virtue:
    model** — especially when predicting **new** material.
 5. **Continually update the training set** with a sample of each new cycle's phenotyped lines;
    models decay as germplasm advances.
-6. **Set expectations by heritability** — low-$h^2$ traits will never predict like high-$h^2$ ones.
+6. **Set expectations by heritability** — low $h^2$ traits will never predict like high $h^2$ ones.
 
 ---
 

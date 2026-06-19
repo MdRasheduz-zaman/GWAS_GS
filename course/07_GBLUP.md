@@ -149,7 +149,7 @@ to *rank* lines and select the top ones, even if not perfect point-by-point.
 
 ⚠️ **Common confusion — accuracy vs. $R^2$ vs. heritability.** Accuracy here = Pearson $r$ (not
 $r^2$). It is bounded above by $\sqrt{h^2}$-ish quantities: you can't predict noise, so a
-trait's heritability caps how high $r$ can go. That's why high-$h^2$ color hits 0.93 and lower-
+trait's heritability caps how high $r$ can go. That's why high $h^2$ color hits 0.93 and lower
 $h^2$ yield sits near 0.6.
 
 ---

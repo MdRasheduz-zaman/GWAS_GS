@@ -236,8 +236,8 @@ breeder's daily reality and the reason genomic prediction (raising the *accuracy
 > 🔬 **In the data — we measured it (`code/07_heritability_accuracy.R`).** For every 2018 trait we
 > estimated genomic heritability $h^2_g$ (from GBLUP variance components) *and* the GBLUP
 > prediction accuracy, then plotted one against the other:
-> **the correlation across traits is r = 0.80** — high-$h^2$ color/L\*/b\* predict at 0.72–0.79,
-> while the lowest-$h^2$ trait (days-to-flowering) sits at 0.46. See
+> **the correlation across traits is r = 0.80** — high $h^2$ color/L\*/b\* predict at 0.72–0.79,
+> while the lowest $h^2$ trait (days-to-flowering) sits at 0.46. See
 > `figures/10_heritability_vs_accuracy.png`. The paper sees the same: **days-to-maturity**'s
 > $h^2$ fell 0.77→0.49 from 2018 to 2019 and its accuracy fell with it. **Heritability is not
 > abstract — it *is* (most of) the accuracy ceiling.** (These $h^2_g$ are estimated on the cleaned

@@ -79,8 +79,8 @@ one.
 🔭 **Zoom out:** the real study tests **2,315** SNPs (so the Bonferroni line moves to
 $0.05/2315 = 2.16\times10^{-5}$), adds **3 PCs** to defuse population structure (§9.3), and uses
 the smarter iterative FarmCPU — but every bar on a real Manhattan plot is one of these little
-per-SNP tests. (See the *real* Manhattan in §9.5: high-$h^2$ color has many bars over the line,
-low-$h^2$ yield almost none.)
+per-SNP tests. (See the *real* Manhattan in §9.5: high $h^2$ color has many bars over the line,
+low $h^2$ yield almost none.)
 
 ---
 
@@ -184,7 +184,7 @@ GP?** That's Lesson 10.
   significance uses a **Bonferroni** threshold ($0.05/2315 = 2.16\times10^{-5}$).
 - **Population structure** confounds associations; correct with the **first 3 PCs** of the
   markers. **FarmCPU** iterates fixed/random models for more power.
-- **High-$h^2$, oligogenic** traits (color: 105 hits) are easy to map; **low-$h^2$, polygenic**
+- **High $h^2$, oligogenic** traits (color: 105 hits) are easy to map; **low $h^2$, polygenic**
   traits (yield: 4 hits) are not — and GWAS hits here were **unstable** across subsets.
 - GWAS (find loci) and GP (rank lines) are **different jobs**.
 
