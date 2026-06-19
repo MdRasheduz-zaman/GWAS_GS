@@ -27,17 +27,47 @@ segments, so SNPs are **signposts** for genes we can't see directly.
 ## 4.2 Genotyping-by-Sequencing (GBS): the cheap way to find thousands of SNPs
 
 Whole-genome sequencing every line is expensive. **GBS** sequences only a *reproducible ~1%
-slice* of the genome — the same slice in every plant:
+slice* of the genome — the same slice in every plant. The trick has three moves:
 
-1. **Cut the DNA with a restriction enzyme** (here **ApeKI**, which recognizes `GCWGC`). The
-   enzyme slices only at its sites → the same fragments in every plant.
-2. **Attach barcodes** — each sample gets a short unique DNA "name tag"; 96 samples are pooled
-   ("multiplexed") into one sequencing lane (huge cost saving). This is what
-   `repo/GBS_barcode_plate_info_blb.txt` records.
-3. **Sequence** on Illumina → hundreds of millions of short reads, each tagged by sample.
+**Move 1 — cut + size-select (this is the "reduced representation").** A **restriction enzyme**
+(here **ApeKI**) is a molecular scissors that cuts DNA *only* where it sees its **recognition site**
+`GCWGC` (W = A or T). Because that 5-letter pattern recurs every few hundred bases, the enzyme
+chops each plant's genome into millions of fragments — *cut at the exact same places in every
+plant*. We then **keep only fragments in a narrow size window** (e.g. 200–350 bp) and sequence just
+those. Same enzyme + same window ⇒ the **same ~1% of the genome, every time**:
 
-🌱 **Breeding logic.** GBS is *affordable* — the whole premise of putting genomics into a
-routine breeding pipeline depends on cheap genotyping. GBS makes genomic selection *practical*.
+![ApeKI cuts at GCWGC, then a size window selects ~1% to sequence](../figures/29_gbs_digest.png)
+
+🧠 **Why this is the whole game.** We don't choose *which* genes to read — the **enzyme's cut-sites
+choose the slice for us**, and they fall in the same spots in every plant, so all 415 lines are read
+at the **same positions** → directly comparable. The unevenly-spaced SNP map you saw in Lesson 1
+(`figures/25_chromosome_map.png`) is exactly the *footprint of where ApeKI happened to cut.*
+
+**Move 2 — barcode + multiplex.** Sequencing one sample at a time wastes a machine that can read
+hundreds of millions of fragments at once. So each sample's fragments get a short unique DNA
+**barcode** ("name tag") ligated on, and **96 barcoded samples are pooled into one lane**
+("multiplexing"). After sequencing, software reads each read's barcode to sort it back to its
+sample (**demultiplexing**). This is what `repo/GBS_barcode_plate_info_blb.txt` records.
+
+```mermaid
+flowchart LR
+  S1["Sample 1<br/>fragments"] -->|"+ barcode<br/>AACCTG"| T1["⬛AACCTG·····"]
+  S2["Sample 2<br/>fragments"] -->|"+ barcode<br/>TTGGCA"| T2["⬛TTGGCA·····"]
+  S96["… Sample 96"] -->|"+ barcode<br/>GCATTC"| T96["⬛GCATTC·····"]
+  T1 & T2 & T96 --> POOL["Pool all 96 into<br/>ONE sequencing lane<br/>(multiplex)"]
+  POOL --> SEQ["Illumina sequencing<br/>→ 100s of millions of reads"]
+  SEQ --> DEMUX["Read each barcode →<br/>sort reads back to sample<br/>(demultiplex)"]
+  DEMUX --> R1["Sample 1 reads"]
+  DEMUX --> R2["Sample 2 reads"]
+  DEMUX --> R96["Sample 96 reads"]
+```
+
+**Move 3 — sequence.** Run the pooled lane on Illumina → hundreds of millions of short reads, each
+carrying its sample's barcode at the front. (We do this for real, on the study's own data, in §4.3.)
+
+🌱 **Breeding logic.** Cutting + size-selecting + multiplexing 96-at-a-time is what makes
+genotyping *cheap enough* to run on a whole breeding panel. The entire premise of putting genomics
+into a routine breeding pipeline depends on this — GBS makes genomic selection *practical*.
 
 ---
 
@@ -210,8 +240,24 @@ carries the rare allele — too rare to estimate an effect, and a magnet for fal
 > consistent with the ≥0.01 filter.
 
 🧮 **Linkage disequilibrium (LD).** Nearby SNPs are inherited together → correlated ($r^2$ high).
-Keeping 50 SNPs that say the same thing wastes computation; LD pruning keeps one **tag** SNP per
-$r^2>0.9$ block, losing little because the tag stands in for its neighbors.
+Why? Recombination rarely splits a *short* chromosome stretch, so two close SNPs almost always
+travel as a unit from parent to offspring; far-apart SNPs get shuffled apart over generations and
+drift toward independence. We can **see this decay in the study's own data**:
+
+![LD decays with distance: r-squared vs SNP separation](../figures/26_ld_decay.png)
+
+🧠 **Read it.** On the left (SNPs a few kb apart) $r^2$ is highest; it **falls as SNPs get farther
+apart** (blue = average per 25-kb bin). Two consequences fall straight out:
+1. **LD pruning is safe.** When two SNPs sit in the same tight block ($r^2>0.9$, red line), they
+   carry nearly the *same* information — keep one **tag** SNP and drop the rest, losing almost
+   nothing while shrinking the matrix. (This study pruned exactly there.)
+2. **Markers can stand in for genes.** A SNP doesn't need to sit *in* a gene — if it's close enough
+   to be in LD with the gene, it **rides along** with it. That "riding along" (§4.6) is the entire
+   reason marker-based prediction works.
+
+> 🔬 `code/08_biology_figures.R` computed this from `GB_BLB$geno` + positions (25,070 within-
+> chromosome SNP pairs ≤ 1 Mb apart). LD starts modest here because the published set was *already*
+> LD-pruned — so the strongest redundancies were removed before we ever saw it.
 
 ---
 

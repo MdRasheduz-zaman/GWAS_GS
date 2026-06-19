@@ -34,6 +34,13 @@ protects genetic gain from being wasted on noise.
   the *same* check varies across the field, the model learns the field's gradient.
 - Plots are **4-row, 50-cm spacing, trimmed to 4.5 m**; the center 2 rows are harvested.
 
+🧬 **Why replication even works here — the selfing payoff.** Replication only makes sense because a
+bean **line is a fixed, homozygous genotype** (Lesson 1: selfed to F6, ~97% of loci fixed). Growing
+"line X" in two plots is growing the *genetically same individual twice* — so the two plots differ
+*only* by environment. That is precisely what lets the model attribute plot-to-plot differences to
+**field position** rather than genetics. In an outcrossing crop, "two plants of variety X" wouldn't
+be genetically identical and this clean separation would blur.
+
 ⚠️ **Common confusion — replication vs. checks.** *Replication* (growing a line more than once)
 averages out noise for *that* line. *Checks* (a few genotypes grown many times everywhere) map
 the *shape* of the field's gradient so it can be subtracted from *all* lines. You need both.

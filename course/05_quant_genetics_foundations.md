@@ -52,6 +52,14 @@ g_i  =  \sum_{j=1}^{p} \alpha_j   x_{ij}
 In matrix form for all lines at once: $\mathbf{g} = \mathbf{M}\boldsymbol{\alpha}$, where
 $\mathbf{M}$ is the 415 × 2,315 marker matrix and $\boldsymbol{\alpha}$ the vector of effects.
 
+🧠 **Where do the $\alpha_j$ "live"?** On the chromosomes. Each $\alpha_j$ is attached to a SNP at a
+real position on one of the 11 chromosomes (`figures/25_chromosome_map.png`). Most SNPs aren't *in*
+the gene that affects the trait — but because a SNP is in **LD** with (rides along with) nearby DNA
+(`figures/26_ld_decay.png`, Lesson 4), it **inherits a slice of that gene's effect**. So
+$\boldsymbol\alpha$ isn't "one effect per gene"; it's "one effect per **signpost**", and the signpost
+near a real gene carries a non-zero value because it tags that gene. This is *why* a few thousand
+anonymous SNPs can predict a trait whose actual genes we never identified.
+
 ### 🧸 Toy example first — 5 lines, 10 SNPs (so $i$, $j$, $\alpha$, $g$ become concrete)
 
 Symbols are slippery until you compute one by hand. Let's shrink the real 415 × 2,315 matrix to a
@@ -261,9 +269,11 @@ by ordinary least squares.
   **genomic relationship matrix G** (Lesson 6) and predict via that. This is **GBLUP**.
 
 🧠 **Intuition for why B works.** You don't need to know *which* genes a champion line carries
-to predict its relatives are good — you just need to know *who its relatives are*. Pedigree
-breeders did this for a century with family trees; markers let us measure relatedness directly,
-even between lines with no recorded pedigree.
+to predict its relatives are good — you just need to know *who its relatives are*. Recall the
+founder pedigree from Lesson 1: lines that descend from the **same founder cross** share long
+chromosome stretches, so they share breeding value. Pedigree breeders exploited this for a century
+with family trees; markers let us measure that shared ancestry **directly** — even between lines
+with no recorded pedigree — by counting how many alleles two lines carry in common (Lesson 6).
 
 It is a beautiful and load-bearing fact that **Route A and Route B give identical predictions.**
 We'll see *why* in Lesson 7. For now, internalize the pivot:

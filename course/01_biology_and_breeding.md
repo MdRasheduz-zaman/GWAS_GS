@@ -13,17 +13,36 @@
 - It comes in **market classes** defined by seed color/shape: navy, pinto, kidney,
   great northern… and **black bean**, the focus of this study. Black beans are popular and
   *rising* in the U.S.
-- Genetically, common bean is **diploid** with **2n = 22** → **11 chromosomes**. (Remember
-  this number: when we look at SNPs, they'll fall on chromosomes 01–11. We confirmed exactly
-  11 chromosomes in the data.)
-- It is largely **self-pollinating**. That matters for breeding (next section) and for the
-  genetics: lines are highly **homozygous** ("true-breeding"), so a "line" is essentially a
-  reproducible genotype you can grow again and again.
+- Genetically, common bean is **diploid** with **2n = 22** → **11 chromosomes**. Picture the
+  genome as **11 long strings**; the 2,315 SNPs we genotype are **signposts scattered along
+  them** (this exact map, from the study's own data, is below). (Remember this number: SNPs fall
+  on chromosomes 01–11. We confirmed exactly 11 in the data.)
 
-🌱 **Breeding logic.** Because beans self-pollinate, a breeder can fix a genotype into a
-near-homozygous **line**, multiply its seed, and test the *same* genetic individual across
-years and locations. This is *why* we can speak of "the breeding value of line X" as a
-stable thing worth predicting.
+![the bean genome: 11 chromosomes with real SNP positions](../figures/25_chromosome_map.png)
+
+> 🔬 **This is the real map** (`code/08_biology_figures.R`, from `GB_BLB$SNP_Position`). Each tick
+> is one of the 2,315 SNPs. Notice they are **unevenly spaced** — dense clusters and bare gaps.
+> That patchiness comes straight from *how* we genotype (Lesson 4: we only read DNA near
+> restriction-enzyme cut-sites), and it's *why* a SNP is a **signpost near** a gene, not the gene
+> itself.
+
+- It is largely **self-pollinating** — and the *reason* is anatomical. A bean flower's lower petals
+  fuse into a **keel** that completely **encloses the anthers (pollen) and stigma (egg-receiver)**.
+  Pollen is shed *inside that closed keel*, often **before the flower even opens**, so a bean
+  normally **fertilises itself**.
+
+![bean flower self-pollination vs a breeder's controlled cross](../figures/30_bean_flower_selfing.png)
+
+🌱 **Breeding logic — two consequences of selfing.**
+1. **Lines breed true.** Self-fertilisation drives a plant toward **homozygosity** (next section):
+   after a few generations its two gene copies match at nearly every locus, so its offspring are
+   ~genetically identical to it. A **line** is therefore a *reproducible genotype* — you can grow
+   the *same* genetic individual across years and locations, which is *why* "the breeding value of
+   line X" is a stable thing worth predicting.
+2. **Crossing takes deliberate work.** To combine two parents (right panel) a breeder must
+   physically **open the keel and snip out the anthers (emasculate)** before they shed, then **brush
+   on pollen from a chosen donor**. Nature won't outcross beans for you — every new combination is a
+   hand-made cross.
 
 ---
 
@@ -39,6 +58,47 @@ flowchart LR
   T --> SEL["SELECT winners"]
   SEL -- "next cycle: genetic gain accumulates" --> P
 ```
+
+### How a *line* actually gets fixed (the "self for generations" step)
+
+The vague phrase "self for generations" hides the single most important genetic event in bean
+breeding. Start from an **F1 hybrid** (one copy of each parent's chromosomes → heterozygous `Aa`
+at every locus where the parents differed). Each round of self-pollination is an `Aa × Aa` mating,
+which by Mendel gives **¼ AA : ½ Aa : ¼ aa** — so **half of the still-mixed loci become fixed**
+every generation:
+
+![selfing halves heterozygosity each generation; Punnett of Aa×Aa](../figures/28_selfing_homozygosity.png)
+
+🧠 **Read the left bars.** Heterozygosity **halves** each generation: 100% → 50% → 25% → … By
+**F6** (where this study's lines sit) only ~3% of loci are still segregating — the line is
+**essentially a fixed, true-breeding genotype**. *That* is what makes it safe to call line X "one
+genotype" and test it in many plots. (`code/08_biology_figures.R`.)
+
+### Different founders → different lines → population structure
+
+A breeder doesn't make *one* cross — they make **many crosses from different pairs of founder
+parents**, and each cross, after selfing, throws off a **family of distinct fixed lines**. The 415
+lines here come from **two programs that started from different founders and selected for different
+goals**:
+
+```mermaid
+flowchart TB
+  subgraph MSU["MSU program — selects for YIELD + canning"]
+    A1["Founder A"] & A2["Founder B"] --> CA["cross → self to F6"] --> LA["lines a1, a2, a3 …"]
+  end
+  subgraph USDA["USDA-ARS program — selects for NUTRITION + canning"]
+    B1["Founder C"] & B2["Founder D"] --> CB["cross → self to F6"] --> LB["lines u1, u2, u3 …"]
+  end
+  LA --> PANEL["The 415-line breeding panel"]
+  LB --> PANEL
+  PANEL --> STRUCT["Lines cluster by their<br/>founders/program =<br/><b>population structure</b>"]
+```
+
+🧠 **Why this matters later.** Lines that share founders share long chromosome stretches, so the
+panel is **not** 415 unrelated individuals — it's **clumps of relatives**. That relatedness is the
+very thing genomic prediction *exploits* (Lessons 6–7), but it's also what *confounds* GWAS
+(Lesson 9) and shows up as the clusters in the relationship matrix (Lesson 6) and PCA
+(`figures/04_pca_structure.png`).
 
 In this study the lines are at the **F6 generation or later** — i.e. essentially fixed,
 homozygous lines ready for yield testing. They come from **two programs**:
@@ -128,6 +188,16 @@ for yield may accidentally ship beans that turn to mush in the can.
 | Yield ↔ appearance | ≈ 0.00 | no simple field-yield/quality link |
 
 > Figure: `figures/02_trait_correlations.png` (full correlation heatmap).
+
+**See the tension as a picture** — every dot is a real bean line (`code/08_biology_figures.R`):
+
+![seed weight vs canning texture: the negative slope is the antagonism](../figures/27_trait_antagonism.png)
+
+🧠 **Read it.** The cloud **slopes down**: heavier-seeded lines tend to have *lower* texture force
+(softer, mushier after canning). Now watch a breeder make the classic mistake — select the
+**heaviest-seeded 20%** to chase yield (blue, right of the dashed line). Their **average texture
+drops** (red arrow): you bought yield and *silently sold* canning quality. The dots don't all obey
+— antagonism is a *tendency*, not a law — but the pull is real and it costs you.
 
 That **−0.36** is the antagonism in miniature: the very thing that boosts yield (seed size)
 costs you canning texture. **Selecting for both at once requires a method that can hold two
