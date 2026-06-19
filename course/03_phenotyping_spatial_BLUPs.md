@@ -46,6 +46,7 @@ The authors use the R package **SpATS** (Spatial Analysis of field Trials with S
 model for a trait $y$ measured on each plot is:
 
 🧮 **The mixed model.**
+
 $$
 y_{ijk} \;=\; \underbrace{\mu}_{\text{overall mean}} \;+\; \underbrace{c_k}_{\text{check vs. non-check (fixed)}} \;+\; \underbrace{g_i}_{\text{genotype (random)}} \;+\; \underbrace{r_j + p_l}_{\text{row, column (random)}} \;+\; \underbrace{f(P,R)}_{\text{smooth 2-D field surface}} \;+\; \underbrace{e_{ijk}}_{\text{leftover error}}
 $$
@@ -102,9 +103,11 @@ model are BLUPs. Decoding the name:
 
 🧮 **The shrinkage formula (intuition version).** For a line with mean $\bar y_i$ over $n_i$
 plots, the BLUP looks roughly like
+
 $$
 \hat g_i \;\approx\; w_i \,(\bar y_i - \mu), \qquad w_i = \frac{n_i \sigma_g^2}{n_i \sigma_g^2 + \sigma_e^2}
 $$
+
 where $\sigma_g^2$ is genetic variance and $\sigma_e^2$ is error variance. Read it:
 - More replicates ($n_i$↑) → $w_i \to 1$ → trust the data, little shrinkage.
 - More noise ($\sigma_e^2$↑) → $w_i$↓ → shrink harder toward the mean.
@@ -136,9 +139,11 @@ yield18 <- predict(fit.yd18, which = "ID")[, c(1,7)]   # line name + its BLUP
 ## 3.6 Heritability, properly
 
 🧮 **Definition (broad-sense, plot basis).**
+
 $$
 H^2 \;=\; \frac{\sigma_g^2}{\sigma_g^2 + \sigma_e^2}
 $$
+
 the fraction of total variance that is genetic. SpATS also reports a **generalized
 heritability** suited to spatial models. Either way:
 
@@ -190,6 +195,10 @@ internalizing.
 > — note 2018 vs 2019 differ because 2018 was wetter, a year effect the per-year BLUPs preserve.
 
 ---
+
+> 🔧 **In practice (R).** Spatial field BLUPs: **`SpATS`** (used here, 2-D splines) or `breedR`,
+> `sommer`, `asreml`. General mixed-model BLUPs: `lme4` (`lmer`), `sommer` (`mmer`). Heritability
+> helpers: the `heritability` package and `SpATS::getHeritability()`.
 
 ## 3.8 What you should now be able to say
 - Field data is spatially biased; a **linear mixed model** with a **2-D spline** + row/column

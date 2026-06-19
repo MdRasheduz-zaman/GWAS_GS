@@ -13,9 +13,11 @@ A genome-wide association study (GWAS) **tests every SNP, one at a time**, for a
 association with the trait. For SNP $j$:
 
 🧮 **The per-SNP model.**
+
 $$
 \mathbf y = \mu + \underbrace{x_j\,\beta_j}_{\text{this SNP's effect}} + \underbrace{\mathbf{Q}\boldsymbol\gamma}_{\text{structure correction}} + \mathbf e
 $$
+
 - $x_j$ — genotypes (0/1/2) at SNP $j$.
 - $\beta_j$ — its effect; **we test $H_0: \beta_j = 0$** and get a **p-value**.
 - $\mathbf Q$ — covariates correcting for population structure (see §9.3).
@@ -39,9 +41,11 @@ $\approx 2315\times0.05 \approx 116$ "significant" hits by pure chance. Useless.
 threshold much stricter.
 
 🧮 **Bonferroni correction.**
+
 $$
 \alpha_{\text{adj}} = \frac{0.05}{\text{number of SNPs}} = \frac{0.05}{2315} = 2.16\times10^{-5}
 $$
+
 A SNP must beat *this* p-value to count. On the Manhattan plot it's the dashed line at
 $-\log_{10}(2.16\times10^{-5}) \approx 4.67$.
 
@@ -170,6 +174,10 @@ The study's clever move (Objective 3) is to ask: **can the *output* of GWAS feed
 GP?** That's Lesson 10.
 
 ---
+
+> 🔧 **In practice (R).** GWAS: **`GAPIT3`** (the paper — `FarmCPU`, `BLINK`, `MLM`, `MLMM`),
+> `rMVP` (fast, large data), or `statgenGWAS`; structure PCs come from `prcomp`/`SNPRelate`. Our
+> `03_gwas.R` codes the PC-corrected single-marker scan by hand so every step is visible.
 
 ## 9.8 What you should now be able to say
 - GWAS **tests each SNP** for trait association, producing p-values and a **Manhattan plot**;

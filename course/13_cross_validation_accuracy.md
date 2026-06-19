@@ -50,9 +50,11 @@ Keeping these separate is what makes the evaluation honest.
 ## 13.3 What "accuracy" actually is
 
 🧮 **Prediction accuracy** in this study =
+
 $$
 r = \text{cor}\big(\hat y_{\text{test}},\ y_{\text{test}}\big)
 $$
+
 the **Pearson correlation** between predicted and observed values on the held-out lines.
 
 - $r=1$: perfect ranking. $r=0$: useless. $r\approx0.6$: moderate — good enough to **select**.
@@ -141,6 +143,11 @@ Reporting both is what makes the study honest about real-world performance.
 - **Confusing fit with prediction:** they never report training-set correlation as "accuracy."
 
 ---
+
+> 🔧 **In practice (R).** The split-and-score loop is plain base R (`sample()` to make folds,
+> `cor()` to score) — that's all `01`–`07` in `code/` use. For ready-made cross-validation
+> wrappers there are `rsample`/`caret` (generic) and GP-specific tools like `BWGS` and the helpers
+> in `BGLR`/`sommer`.
 
 ## 13.7 What you should now be able to say
 - Honest evaluation **hides test phenotypes** and scores predictions on them; the study uses

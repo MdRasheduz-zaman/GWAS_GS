@@ -15,9 +15,11 @@ In plain GBLUP, all markers are pooled into **G** and shrunk equally (Lesson 7) 
 back as **fixed effects** that are **not shrunk**:
 
 🧮 **The augmented model.**
+
 $$
 \mathbf y = \mathbf 1\mu + \underbrace{\mathbf{W}\boldsymbol\beta}_{\text{GWAS hits, FIXED (no shrinkage)}} + \underbrace{\mathbf g}_{\text{rest of genome via } \mathbf G,\ \text{random}} + \mathbf e
 $$
+
 - $\mathbf W$ — genotypes at just the GWAS-significant SNPs.
 - $\boldsymbol\beta$ — their effects, estimated **freely** (fixed = "trust these fully").
 - $\mathbf g \sim N(\mathbf 0, \mathbf G^\ast\sigma_g^2)$ — the *remaining* markers (the hits are

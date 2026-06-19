@@ -13,9 +13,11 @@ You met heritability intuitively in Lesson 3. Now we make it precise enough to *
 Take a single SNP with alleles, count copies of one allele → $x \in \{0,1,2\}$ (Lesson 2).
 Suppose each copy adds, on average, a fixed amount $\alpha$ to the trait. Then that locus
 contributes:
+
 $$
 \text{contribution} = \alpha \cdot x
 $$
+
 - $x=0$: contributes $0$
 - $x=1$: contributes $\alpha$
 - $x=2$: contributes $2\alpha$
@@ -38,9 +40,11 @@ A complex trait (yield, appearance) is influenced by **many** loci. Sum each loc
 contribution over all $p$ markers:
 
 🧮 **The genetic (breeding) value of line $i$:**
+
 $$
 g_i \;=\; \sum_{j=1}^{p} \alpha_j \, x_{ij}
 $$
+
 - $x_{ij}$ — line $i$'s genotype (0/1/2) at marker $j$.
 - $\alpha_j$ — additive effect of marker $j$.
 - $g_i$ — line $i$'s total **breeding value**: the sum of all its allele "prices".
@@ -128,26 +132,73 @@ $y$ and the markers.
 ## 5.3 The phenotype = signal + noise
 
 🧮 **The decomposition.**
+
 $$
 \underbrace{y_i}_{\text{what we measure}} \;=\; \underbrace{\mu}_{\text{mean}} \;+\; \underbrace{g_i}_{\text{genetics (signal)}} \;+\; \underbrace{e_i}_{\text{environment (noise)}}
 $$
 
 Taking variances across lines (signal and noise independent):
+
 $$
 \sigma_P^2 \;=\; \sigma_g^2 \;+\; \sigma_e^2
 $$
+
 total **phenotypic** variance = **genetic** variance + **environmental** variance.
+
+### 🧸 Toy first — split the variance with replicated lines (`code/toy_05b_quantgen.R`)
+
+How do we actually *get* $\sigma_g^2$ and $\sigma_e^2$? Grow each genotype **several times** (reps).
+Then the spread **between** line means is genetic, and the spread **within** a line (same genes,
+different plots) is environmental. With 6 toy lines × 8 reps:
+
+![toy variance components](../figures/23_toy_variance_components.png)
+
+🔬 From the toy (panel A): $\sigma_g^2 = 8.4$, $\sigma_e^2 = 4.3$, so $\sigma_P^2 = 12.7$ and
+$$H^2 = \frac{\sigma_g^2}{\sigma_g^2+\sigma_e^2} = \frac{8.4}{12.7} = 0.66.$$
+🔭 **Zoom out:** the study's SpATS model (Lesson 3) does exactly this partition for 415 lines
+across a noisy field — replication + checks let it separate genetics from "which plot you sat in,"
+then reports a (generalized) heritability per trait.
 
 ---
 
 ## 5.4 Heritability, defined three ways (all the same idea)
 
 🧮 **Narrow-sense heritability:**
+
 $$
 h^2 \;=\; \frac{\sigma_A^2}{\sigma_P^2} \;=\; \frac{\text{additive genetic variance}}{\text{total phenotypic variance}}
 $$
-(Broad-sense $H^2$ uses *all* genetic variance $\sigma_g^2$; for near-homozygous selfed bean
-lines the two nearly coincide because most genetic variance is additive.)
+
+**The three heritabilities, side by side:**
+
+| symbol | name | numerator | answers |
+|--------|------|-----------|---------|
+| $H^2$ | broad-sense | *all* genetic variance $\sigma_g^2=\sigma_A^2+\sigma_D^2(+\dots)$ | "how much is genetic at all?" |
+| $h^2$ | narrow-sense | only **additive** $\sigma_A^2$ | "how much breeds true to offspring?" |
+| $h^2_g$ | genomic | variance the **markers** capture | "how much can the SNPs explain?" |
+
+All three share the denominator $\sigma_P^2$. For near-homozygous selfed bean lines, $\sigma_D^2$
+is tiny, so $H^2 \approx h^2 \approx h^2_g$ — which is *why* additive GBLUP works so well here.
+
+### 🧸 Toy first — where does $\sigma_D^2$ come from, and why $h^2 \le H^2$? (`code/toy_05b_quantgen.R`)
+
+Take **one** locus (alleles A/a). Falconer's model assigns genotypic values $-a, d, +a$ to
+$aa, Aa, AA$ ($a$ = additive size, $d$ = dominance: $d\neq0$ means the heterozygote isn't halfway).
+Fit the **best straight line** of genotypic value on *number of A alleles* — its slope is the
+**average effect $\alpha$**, and the line gives each genotype's **breeding value** (the additive,
+heritable part). The **gaps** between the points and the line are **dominance deviations**:
+
+![toy additive vs dominance](../figures/24_toy_additive_dominance.png)
+
+🔬 With $a=10$, $d=4$, allele freq $p=0.6$:
+$$\sigma_A^2 = 2pq\,[a+d(q-p)]^2 = 40.6, \qquad \sigma_D^2 = (2pqd)^2 = 3.7$$
+So the locus is **92% additive**. The additive part ($\sigma_A^2$) goes into $h^2$ and **passes to
+offspring**; the dominance part ($\sigma_D^2$) inflates $H^2$ but **doesn't breed true** (it depends
+on getting the *pair* of alleles together again). That gap is precisely why $h^2 \le H^2$.
+
+> 🔧 **In practice (R).** Variance components & heritabilities come from mixed-model packages:
+> `sommer` (`mmer`, with additive **and** dominance kernels via `A.mat`/`D.mat`), `BGLR`, or
+> `lme4`/`heritability`. The paper's genomic $h^2_g$ is the marker-explained share from a GBLUP fit.
 
 Read $h^2$ three equivalent ways:
 1. **Fraction of variance that's heritable** (the definition).
@@ -156,14 +207,26 @@ Read $h^2$ three equivalent ways:
    the genetic part, so accuracy is bounded by (a function of) $h^2$.
 
 🌱 **Breeding payoff — the breeder's equation.** Genetic gain per cycle is
+
 $$
 \Delta G \;=\; i \, h^2 \, \sigma_P \quad\text{(mass selection form)} \quad\Rightarrow\quad \Delta G = i\,r\,\sigma_A \ \text{(general form)}
 $$
+
 where $i$ = selection intensity (how picky you are), $r$ = accuracy of selection, $\sigma_A$ =
 additive SD. **This equation is the *reason genomic prediction exists*:** genomic selection
 raises $\Delta G$ by (a) increasing **accuracy $r$** on hard-to-measure traits and (b) letting
 you select *earlier/faster*, shortening the cycle so $\Delta G$ accumulates per *year* faster.
 Everything in this study is ultimately an attempt to push $r$ up.
+
+### 🧸 Toy first — selection differential $S$ → response $R$ (`code/toy_05b_quantgen.R`)
+
+The breeder's equation in its most tangible form is **$R = h^2 S$**: select the best, and the next
+generation moves by the *heritable fraction* of how special your selections were. Toy: a population
+with mean 50, $h^2=0.5$; keep the **top 20%** (panel C of the figure above):
+$$S = \bar y_{\text{selected}} - \bar y_{\text{all}} = 11.2, \qquad R = h^2 S = 0.5 \times 11.2 = 5.6$$
+so the next generation's mean rises from **50 → 55.6**. ⚠️ Note the lever: with $h^2=0.5$ you only
+*keep half* of the 11.2 you selected for — **low heritability throttles response**, which is the
+breeder's daily reality and the reason genomic prediction (raising the *accuracy* term $r$) matters.
 
 > 🔬 **In the data — we measured it (`code/07_heritability_accuracy.R`).** For every 2018 trait we
 > estimated genomic heritability $h^2_g$ (from GBLUP variance components) *and* the GBLUP

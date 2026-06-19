@@ -136,10 +136,12 @@ many reads support the **reference** allele vs an **alternative** allele, then c
 **allele fraction** to a dosage:
 
 🧮 **The genotype rule (the simplest honest version):**
+
 $$
 \text{alt fraction} = \frac{\#\text{alt reads}}{\#\text{ref reads} + \#\text{alt reads}}, \qquad
 \text{dosage} = \begin{cases} 0 & \text{frac} \le 0.15\ (\text{hom-ref, } AA)\\ 1 & 0.15 < \text{frac} < 0.85\ (\text{het, } Aa)\\ 2 & \text{frac} \ge 0.85\ (\text{hom-alt, } aa)\end{cases}
 $$
+
 (too few reads → call it **missing**). Real callers like **NGSEP** (the paper) or `bcftools` use a
 genotype-*likelihood* model, but the underlying idea is exactly this: *reads voting on alleles.*
 
@@ -236,6 +238,11 @@ python3 code/05c_call_genotypes.py  # pileup -> 0/1/2 matrix + het diagnostics
 > a laptop. Same five logical steps: demultiplex → trim → align → pileup → genotype.
 
 ---
+
+> 🔧 **In practice (tools).** Demultiplex/trim: `process_radtags` (Stacks), `Cutadapt`, `fastp`;
+> align: `Bowtie2`/`BWA`; call genotypes: **`NGSEP`** (the paper), `bcftools`, or `GATK`; filter
+> (MAF, missingness, het, biallelic): `VCFtools`, `PLINK`, `bcftools`; LD pruning & MAF: `PLINK`,
+> R's `SNPRelate`; impute: `Beagle`. In R, read the final VCF with `vcfR` and build dosages.
 
 ## 4.8 What you should now be able to say
 - A **SNP** is a single-position DNA difference, coded as allele-count **0/1/2**; **GBS** cheaply

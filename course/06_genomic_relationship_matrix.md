@@ -29,10 +29,13 @@ sibs that drifted apart). G is the *data-driven* upgrade of the pedigree relatio
 
 1. **Center & scale each SNP column** → matrix $\mathbf{Z}$. For SNP $j$ with mean $2p_j$ and
    SD $s_j$:
+
    $$ Z_{ij} = \frac{M_{ij} - 2p_j}{s_j} $$
+
    Centering removes the "average dose" so we measure *deviation* from the population; scaling
    puts every SNP on a comparable footing.
 2. **Cross-multiply and average over markers:**
+
    $$ \boxed{\;\mathbf{G} = \frac{\mathbf{Z}\mathbf{Z}^{\top}}{p}\;} \qquad (p = \text{number of markers}) $$
 
 In R this is literally the line the authors wrote (and we reproduced):
@@ -80,6 +83,72 @@ blocks are families of related lines and blue regions are unrelated pairs (we dr
 > **0.998** (≈1, as designed) and mean off-diagonal ≈ **−0.002** (≈0 — the *average* pair is
 > unrelated, by construction of centering). Individual pairs depart from 0 — and *that variation*
 > is the signal prediction feeds on.
+
+---
+
+## 6.3b 🧸 Pedigree kinship vs. marker reality — and the two glitches markers fix
+
+Before markers, breeders measured relatedness from a **pedigree** (family tree). It's worth seeing
+this older method *and why DNA improves on it* — it's the whole reason the paper uses a marker **G**.
+Run `code/toy_06_pedigree_kinship.R`.
+
+### The toy pedigree
+Founders **P1, P2, C, F**; full sibs **A, B** (= P1×P2); and **D** (= A×C), **E** (= B×F):
+
+```mermaid
+flowchart TD
+  P1((P1)) --> A((A)); P2((P2)) --> A
+  P1 --> B((B)); P2 --> B
+  A --> D((D)); C((C)) --> D
+  B --> E((E)); F((F)) --> E
+  X{{"hidden ancestor X<br/>(not in the records)"}} -.-> P1
+  X -.-> C
+```
+
+### Pedigree expectation: the relationship matrix A (by hand)
+The **numerator relationship matrix A** is built by one rule applied top-down (the *tabular
+method*): for individual $i$ with parents $s,d$,
+$$A_{ij}=\tfrac12\,(A_{js}+A_{jd}), \qquad A_{ii}=1+\tfrac12 A_{sd}$$
+Unknown parents ⇒ treat as unrelated founders ($A=0$). This gives **expected** relationships:
+
+| pair | meaning | pedigree $A$ | kinship $A/2$ |
+|------|---------|--------------|----------------|
+| A, B | full sibs | **0.500** | 0.250 |
+| D, E | first cousins | **0.125** | 0.062 |
+| P1, C | "unrelated" founders | **0.000** | 0.000 |
+
+⚠️ Notice **A gives one fixed number per relationship type** — *every* full-sib pair is exactly
+0.50, by assumption.
+
+### Marker reality: realized G — and where it disagrees
+Now we *gene-drop* DNA through the pedigree and compute the marker **G** (VanRaden, §6.2, centered on
+founder allele frequencies). G measures what each pair **actually** inherited:
+
+![pedigree A vs marker G](../figures/22_toy_pedigree_kinship.png)
+
+🔬 Two disagreements pop out (points off the dashed line):
+
+1. **Mendelian sampling — "every full sib is 0.50" is only an *average*.** The pedigree says
+   A,B = 0.50; the markers say **G = 0.55**. Full sibs each draw a *random half* of each parent's
+   genome, so realized sharing scatters around 0.50 (some sib pairs 0.4, some 0.6). Pedigree A
+   can't see this; **G can**. Selecting on realized relationships is more accurate.
+2. **Cryptic relatedness — markers catch what the pedigree missed.** The records call P1 and C
+   *unrelated founders* (A = 0.00). But they secretly share an unrecorded ancestor **X** (they're
+   really half-sibs). The markers expose it: **G = 0.28**. Incomplete pedigrees are the norm in
+   real breeding programs — DNA doesn't rely on paperwork.
+
+### Why this is the bridge to the paper
+🌱 The black bean panel comes from **two programs (MSU, USDA-ARS)** with **different, often
+incomplete pedigrees** — there's no single reliable family tree linking all 415 lines. And even
+where pedigrees exist, **realized** relatedness (what GP actually needs, Lesson 7) beats pedigree
+*expectations*. So the authors compute relatedness straight from **2,315 SNPs** — exactly the
+marker **G** of §6.2. The toy is the study in miniature: *replace the family tree with DNA, gain
+both accuracy (Mendelian sampling) and coverage (cryptic relatedness).*
+
+> 🔧 **In practice (R).** Pedigree **A**: `AGHmatrix::Amatrix()`, `nadiv::makeA()`, or `pedigreemm`.
+> Marker **G**: `rrBLUP::A.mat()`, `AGHmatrix::Gmatrix()`, or `sommer::A.mat()` — all implement the
+> VanRaden formula we wrote by hand in §6.2. (We built both from scratch here so the machinery is
+> visible.)
 
 ---
 

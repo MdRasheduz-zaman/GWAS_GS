@@ -13,6 +13,7 @@ In GBLUP we used $\mathbf G$ to say how similar lines are. A **kernel** $\mathbf
 *kind* of object — a square line-by-line similarity matrix — but computed by a more flexible
 rule. Swap $\mathbf G$ for $\mathbf K$ in the exact same mixed model and you have **RKHS**
 (Reproducing Kernel Hilbert Space) regression:
+
 $$
 \mathbf y = \mathbf 1\mu + \mathbf u + \mathbf e, \qquad \mathbf u \sim N(\mathbf 0,\ \mathbf K\,\sigma^2)
 $$
@@ -29,9 +30,11 @@ model fit interactions between loci that a purely additive model can't see.
 The authors use the **Gaussian (RBF) kernel**. For lines $i$ and $j$:
 
 🧮
+
 $$
 K_{ij} = \exp\!\big(-\theta\, d_{ij}^2\big)
 $$
+
 - $d_{ij}^2$ — the **squared genetic distance** between lines $i$ and $j$ (squared Euclidean
   distance between their marker vectors), scaled by its mean.
 - $\theta$ — the **bandwidth** (how fast similarity decays with distance).
@@ -64,10 +67,12 @@ $\theta \in \{0.02,\ 1,\ 5\}$ (a "smooth", a "medium", and a "local" view) — a
 **weight them automatically**:
 
 🧮 **KA model.**
+
 $$
 \mathbf y = \mathbf 1\mu + \mathbf u_1 + \mathbf u_2 + \mathbf u_3 + \mathbf e, \qquad
 \mathbf u_b \sim N(\mathbf 0,\ \mathbf K_b\,\sigma_b^2)
 $$
+
 with $\mathbf K_b = \exp(-\theta_b \mathbf D)$. The variance components $\sigma_b^2$ are learned
 from the data, so the model **decides how much smooth vs. local structure each trait needs** —
 no manual tuning. This is exactly the repo code:
@@ -146,6 +151,11 @@ changes. That's the unifying insight: **GBLUP and RKHS are one framework; the ke
 knob.**
 
 ---
+
+> 🔧 **In practice (R).** RKHS / Gaussian kernels: **`BGLR`** — pass a *list* of `RKHS` terms with
+> kernels at several bandwidths and it fits **kernel averaging (KA)** automatically (exactly the
+> paper's setup). `sommer` offers a Gaussian kernel (`GK`); `GAPIT` exposes kernel options too.
+> The squared-distance matrix is just `as.matrix(dist(M))^2` scaled by its mean.
 
 ## 8.6 What you should now be able to say
 - An **RKHS / kernel** model is GBLUP with the relationship matrix **G** replaced by a flexible

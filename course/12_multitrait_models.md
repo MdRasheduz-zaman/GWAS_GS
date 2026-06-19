@@ -35,16 +35,20 @@ Both secondaries are exactly the kind of cheap, heritable, correlated traits the
 
 🧮 **Multi-trait GBLUP.** Stack the two traits' phenotypes and model their breeding values as
 **correlated**:
+
 $$
 \begin{bmatrix}\mathbf y_1\\ \mathbf y_2\end{bmatrix}
 = \boldsymbol\mu + \begin{bmatrix}\mathbf g_1\\ \mathbf g_2\end{bmatrix} + \mathbf e,
 \qquad
 \begin{bmatrix}\mathbf g_1\\ \mathbf g_2\end{bmatrix} \sim N\!\left(\mathbf 0,\ \mathbf{\Sigma}_g \otimes \mathbf G\right)
 $$
+
 The new ingredient is the **genetic covariance matrix between traits**:
+
 $$
 \mathbf{\Sigma}_g = \begin{bmatrix}\sigma_{g_1}^2 & \sigma_{g_{12}}\\ \sigma_{g_{12}} & \sigma_{g_2}^2\end{bmatrix}
 $$
+
 - $\sigma_{g_{12}}$ — the **genetic covariance** between trait 1 and trait 2. **This is the
   channel through which trait 2 helps trait 1.** If it's 0, MT collapses back to ST (no help).
 - $\otimes \mathbf G$ — relatedness still governs *within* each trait (Lesson 6).
@@ -158,6 +162,11 @@ both bars; GWAS hits failed on stability; NIRS failed on correlation strength. *
 most transferable idea in the study.*
 
 ---
+
+> 🔧 **In practice (R).** Multi-trait GP: **`BGLR::Multitrait`** (the paper), `sommer`'s
+> multivariate `mmer` (e.g. `cbind(y1,y2) ~ ...`), the `MTM` package, or `asreml`. These estimate
+> the genetic covariance $\sigma_{g_{12}}$ that does the "borrowing." Our `04_across_cycle.R` calls
+> `BGLR::Multitrait` for the yield+seed-weight model.
 
 ## 12.5 What you should now be able to say
 - **Multi-trait (MT)** models predict several traits jointly, using the **genetic covariance**

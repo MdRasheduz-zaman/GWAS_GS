@@ -40,6 +40,7 @@ Boxes you'll see:
 - 🔭 **Zoom out** — the bridge: "now picture that toy stretched to the real 415 × 2,315 scale."
 - 🌱 **Breeding logic** — why a breeder cares.
 - 🔬 **In the data** — a real, reproduced result from the black bean dataset.
+- 🔧 **In practice (R)** — which package computes this for you in real work.
 - ⚠️ **Common confusion** — a trap to avoid.
 
 > **The core teaching move:** every hard idea appears first on a 🧸 **toy** you can hold in your

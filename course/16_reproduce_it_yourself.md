@@ -58,6 +58,8 @@ Rscript 01_explore_data.R
 | `07_heritability_accuracy.R` | 5,13,15 | h²_g vs GBLUP accuracy for all 2018 traits | `figures/10_*`; **r(h², acc)=0.80** |
 | `toy_04_reads_to_012.R` | 4 | toy reads→dosage at one SNP | `figures/12_*` |
 | `toy_05_breeding_value.R` | 5 | toy 5×10 g = M·α, fully worked | `figures/11_*` |
+| `toy_05b_quantgen.R` | 5 | variance components & H²; additive vs dominance (σ²_A/σ²_D); breeder's equation | `figures/23_*`, `24_*` |
+| `toy_06_pedigree_kinship.R` | 6 | pedigree A (tabular) vs marker G; Mendelian sampling & cryptic relatedness | `figures/22_*` |
 | `toy_08_kernels.R` | 8 | toy distance→Gaussian kernel, bandwidth effect | `figures/15_*` |
 | `toy_09_gwas.R` | 9 | toy per-SNP tests → mini Manhattan + Bonferroni | `figures/16_*` |
 | `toy_11_rsi.R` | 11 | toy index: OLS overfit vs ridge (p>n) | `figures/17_*` |
