@@ -47,9 +47,7 @@ model for a trait $y$ measured on each plot is:
 
 🧮 **The mixed model.**
 
-$$
-y_{ijk} \;=\; \underbrace{\mu}_{\text{overall mean}} \;+\; \underbrace{c_k}_{\text{check vs. non-check (fixed)}} \;+\; \underbrace{g_i}_{\text{genotype (random)}} \;+\; \underbrace{r_j + p_l}_{\text{row, column (random)}} \;+\; \underbrace{f(P,R)}_{\text{smooth 2-D field surface}} \;+\; \underbrace{e_{ijk}}_{\text{leftover error}}
-$$
+$$ y_{ijk}  =  \underbrace{\mu}_{\text{overall mean}}  +  \underbrace{c_k}_{\text{check vs. non-check (fixed)}}  +  \underbrace{g_i}_{\text{genotype (random)}}  +  \underbrace{r_j + p_l}_{\text{row, column (random)}}  +  \underbrace{f(P,R)}_{\text{smooth 2-D field surface}}  +  \underbrace{e_{ijk}}_{\text{leftover error}} $$
 
 Term by term, in plain words:
 - $\mu$ — the grand average of the trait.
@@ -104,9 +102,7 @@ model are BLUPs. Decoding the name:
 🧮 **The shrinkage formula (intuition version).** For a line with mean $\bar y_i$ over $n_i$
 plots, the BLUP looks roughly like
 
-$$
-\hat g_i \;\approx\; w_i \,(\bar y_i - \mu), \qquad w_i = \frac{n_i \sigma_g^2}{n_i \sigma_g^2 + \sigma_e^2}
-$$
+$$ \hat g_i  \approx  w_i  (\bar y_i - \mu), \qquad w_i = \frac{n_i \sigma_g^2}{n_i \sigma_g^2 + \sigma_e^2} $$
 
 where $\sigma_g^2$ is genetic variance and $\sigma_e^2$ is error variance. Read it:
 - More replicates ($n_i$↑) → $w_i \to 1$ → trust the data, little shrinkage.
@@ -140,9 +136,7 @@ yield18 <- predict(fit.yd18, which = "ID")[, c(1,7)]   # line name + its BLUP
 
 🧮 **Definition (broad-sense, plot basis).**
 
-$$
-H^2 \;=\; \frac{\sigma_g^2}{\sigma_g^2 + \sigma_e^2}
-$$
+$$ H^2  =  \frac{\sigma_g^2}{\sigma_g^2 + \sigma_e^2} $$
 
 the fraction of total variance that is genetic. SpATS also reports a **generalized
 heritability** suited to spatial models. Either way:

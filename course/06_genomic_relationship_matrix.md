@@ -36,7 +36,7 @@ sibs that drifted apart). G is the *data-driven* upgrade of the pedigree relatio
    puts every SNP on a comparable footing.
 2. **Cross-multiply and average over markers:**
 
-   $$ \boxed{\;\mathbf{G} = \frac{\mathbf{Z}\mathbf{Z}^{\top}}{p}\;} \qquad (p = \text{number of markers}) $$
+   $$ \boxed{ \mathbf{G} = \frac{\mathbf{Z}\mathbf{Z}^{\top}}{p} } \qquad (p = \text{number of markers}) $$
 
 In R this is literally the line the authors wrote (and we reproduced):
 ```r
@@ -108,7 +108,7 @@ flowchart TD
 ### Pedigree expectation: the relationship matrix A (by hand)
 The **numerator relationship matrix A** is built by one rule applied top-down (the *tabular
 method*): for individual $i$ with parents $s,d$,
-$$A_{ij}=\tfrac12\,(A_{js}+A_{jd}), \qquad A_{ii}=1+\tfrac12 A_{sd}$$
+$$A_{ij}=\tfrac12 (A_{js}+A_{jd}), \qquad A_{ii}=1+\tfrac12 A_{sd}$$
 Unknown parents ⇒ treat as unrelated founders ($A=0$). This gives **expected** relationships:
 
 | pair | meaning | pedigree $A$ | kinship $A/2$ |
@@ -182,7 +182,7 @@ the major axes of population structure.)
 
 | Role | Where | What G does |
 |------|-------|-------------|
-| **Covariance of breeding values** | GBLUP (Lesson 7) | $\mathbf{g} \sim N(\mathbf 0,\, \mathbf G\,\sigma_g^2)$ — relatives have correlated genetic values |
+| **Covariance of breeding values** | GBLUP (Lesson 7) | $\mathbf{g} \sim N(\mathbf 0,  \mathbf G \sigma_g^2)$ — relatives have correlated genetic values |
 | **Diagnostic of structure** | EDA / GWAS (Lesson 9) | its PCs reveal subpopulations to correct for |
 
 The first role is the engine of prediction: by declaring "breeding values are *correlated

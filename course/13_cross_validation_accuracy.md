@@ -51,9 +51,7 @@ Keeping these separate is what makes the evaluation honest.
 
 🧮 **Prediction accuracy** in this study =
 
-$$
-r = \text{cor}\big(\hat y_{\text{test}},\ y_{\text{test}}\big)
-$$
+$$ r = \text{cor}\big(\hat y_{\text{test}},\ y_{\text{test}}\big) $$
 
 the **Pearson correlation** between predicted and observed values on the held-out lines.
 
@@ -62,7 +60,7 @@ the **Pearson correlation** between predicted and observed values on the held-ou
   gets the **order** right is valuable even if absolute predictions are off.
 
 🌱 **Breeding logic.** Selection accuracy $r$ is the very $r$ in the breeder's equation
-$\Delta G = i\,r\,\sigma_A$ (Lesson 5). So "prediction accuracy" isn't an abstract score — it
+$\Delta G = i r \sigma_A$ (Lesson 5). So "prediction accuracy" isn't an abstract score — it
 **directly scales genetic gain**. A jump from $r=0.4$ to $r=0.65$ is a ~60% boost in gain per
 cycle, all else equal. That's why the paper's "+63% for yield" is a big deal.
 
@@ -154,7 +152,7 @@ Reporting both is what makes the study honest about real-world performance.
   **70/30 splits repeated 100×** (boxplots) for the headline accuracy, with an **inner 10-fold
   CV** only for tuning.
 - **Accuracy = Pearson $r$** between predicted and observed test values; it **scales genetic gain**
-  ($\Delta G=i\,r\,\sigma_A$) and is **capped by heritability**.
+  ($\Delta G=i r \sigma_A$) and is **capped by heritability**.
 - **Table 1**'s model codes (**G**=GWAS, **C**=correlated, **R**=RSI; ST/MT) are just train-set
   recipes; reading the figures = decoding the letters.
 - Two regimes — **within** vs. **across** cycle — answer different questions; reporting both keeps

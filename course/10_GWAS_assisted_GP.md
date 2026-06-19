@@ -16,9 +16,7 @@ back as **fixed effects** that are **not shrunk**:
 
 🧮 **The augmented model.**
 
-$$
-\mathbf y = \mathbf 1\mu + \underbrace{\mathbf{W}\boldsymbol\beta}_{\text{GWAS hits, FIXED (no shrinkage)}} + \underbrace{\mathbf g}_{\text{rest of genome via } \mathbf G,\ \text{random}} + \mathbf e
-$$
+$$ \mathbf y = \mathbf 1\mu + \underbrace{\mathbf{W}\boldsymbol\beta}_{\text{GWAS hits, FIXED (no shrinkage)}} + \underbrace{\mathbf g}_{\text{rest of genome via } \mathbf G,\ \text{random}} + \mathbf e $$
 
 - $\mathbf W$ — genotypes at just the GWAS-significant SNPs.
 - $\boldsymbol\beta$ — their effects, estimated **freely** (fixed = "trust these fully").

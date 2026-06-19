@@ -11,11 +11,7 @@
 
 🧮 **GBLUP model.**
 
-$$
-\mathbf{y} = \mathbf{1}\mu + \mathbf{g} + \mathbf{e}, \qquad
-\mathbf{g} \sim N(\mathbf 0,\ \mathbf G\,\sigma_g^2), \qquad
-\mathbf{e} \sim N(\mathbf 0,\ \mathbf I\,\sigma_e^2)
-$$
+$$ \mathbf{y} = \mathbf{1}\mu + \mathbf{g} + \mathbf{e}, \qquad \mathbf{g} \sim N(\mathbf 0,\ \mathbf G \sigma_g^2), \qquad \mathbf{e} \sim N(\mathbf 0,\ \mathbf I \sigma_e^2) $$
 
 - $\mathbf{y}$ — vector of phenotypes (BLUPs) for the lines we *did* measure.
 - $\mu$ — overall mean; $\mathbf 1$ — a column of ones.
@@ -39,9 +35,7 @@ conditional-mean formula:
 
 🧮
 
-$$
-\hat{\mathbf{g}}_{\text{test}} \;=\; \mathbf{G}_{\text{test,train}}\,\big(\mathbf{G}_{\text{train,train}} + \lambda \mathbf{I}\big)^{-1}\,(\mathbf{y}_{\text{train}}-\mu), \qquad \lambda = \frac{\sigma_e^2}{\sigma_g^2}
-$$
+$$ \hat{\mathbf{g}}_{\text{test}}  =  \mathbf{G}_{\text{test,train}} \big(\mathbf{G}_{\text{train,train}} + \lambda \mathbf{I}\big)^{-1} (\mathbf{y}_{\text{train}}-\mu), \qquad \lambda = \frac{\sigma_e^2}{\sigma_g^2} $$
 
 Decode it:
 - $\mathbf{G}_{\text{test,train}}$ — **how related each test line is to each training line** (the
@@ -75,9 +69,7 @@ L3 is **most related to L4** (+0.35, and L4 is the *low* performer, $y=2$) and *
 opposite** the high performers L1 ($y=10$) and L5 ($y=9$). So the relatedness-weighted blend pulls
 L3's prediction *below* the mean ($\mu=7.25$):
 
-$$
-\hat y_{\text{L3}} = \mu + \mathbf G_{\text{L3,trn}}(\mathbf G_{\text{trn,trn}}+\lambda\mathbf I)^{-1}(\mathbf y_{\text{trn}}-\mu) = \mathbf{4.27}
-$$
+$$ \hat y_{\text{L3}} = \mu + \mathbf G_{\text{L3,trn}}(\mathbf G_{\text{trn,trn}}+\lambda\mathbf I)^{-1}(\mathbf y_{\text{trn}}-\mu) = \mathbf{4.27} $$
 
 🔭 **Zoom out:** the real GBLUP does this for each of 143 new-cycle lines at once, blending **272**
 training phenotypes by a **415×415** relatedness matrix. Same formula — we *just verified it gives
@@ -91,9 +83,7 @@ Recall Lesson 5's two routes. Here's why they're the same.
 
 **Route A (RR-BLUP):** estimate every marker effect $\alpha_j$, but penalize their size:
 
-$$
-\hat{\boldsymbol\alpha} = \arg\min_{\boldsymbol\alpha} \ \|\mathbf y - \mathbf Z\boldsymbol\alpha\|^2 + \lambda\|\boldsymbol\alpha\|^2
-$$
+$$ \hat{\boldsymbol\alpha} = \arg\min_{\boldsymbol\alpha} \ \|\mathbf y - \mathbf Z\boldsymbol\alpha\|^2 + \lambda\|\boldsymbol\alpha\|^2 $$
 
 then $\hat{\mathbf g} = \mathbf Z\hat{\boldsymbol\alpha}$. The $\lambda\|\boldsymbol\alpha\|^2$
 term — **ridge** — is what makes the impossible $p\gg n$ problem solvable: it forbids any single

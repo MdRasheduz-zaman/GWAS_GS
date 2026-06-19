@@ -12,7 +12,7 @@ developed. Skim before an exam; look up while reading.
   272 lines** (2018–19), **cycle 2 = 143 lines** (2019). (L1)
 - **Check cultivar** — a known variety (Eclipse/Zorro/Zenith) grown repeatedly to map field
   variation. (L3)
-- **Genetic gain ($\Delta G$)** — improvement per cycle; $\Delta G = i\,r\,\sigma_A$. (L5)
+- **Genetic gain ($\Delta G$)** — improvement per cycle; $\Delta G = i r \sigma_A$. (L5)
 
 ### Traits
 - **YD** seed yield; **SW** 100-seed weight; **DF** days to flowering; **DPM** days to maturity. (L1)

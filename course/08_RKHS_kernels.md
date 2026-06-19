@@ -14,9 +14,7 @@ In GBLUP we used $\mathbf G$ to say how similar lines are. A **kernel** $\mathbf
 rule. Swap $\mathbf G$ for $\mathbf K$ in the exact same mixed model and you have **RKHS**
 (Reproducing Kernel Hilbert Space) regression:
 
-$$
-\mathbf y = \mathbf 1\mu + \mathbf u + \mathbf e, \qquad \mathbf u \sim N(\mathbf 0,\ \mathbf K\,\sigma^2)
-$$
+$$ \mathbf y = \mathbf 1\mu + \mathbf u + \mathbf e, \qquad \mathbf u \sim N(\mathbf 0,\ \mathbf K \sigma^2) $$
 
 🧠 **Intuition.** GBLUP's G measures similarity as a *straight-line* (linear) correlation across
 SNPs. A kernel can measure similarity in a *curved* way — "very similar genotypes count as
@@ -31,9 +29,7 @@ The authors use the **Gaussian (RBF) kernel**. For lines $i$ and $j$:
 
 🧮
 
-$$
-K_{ij} = \exp\!\big(-\theta\, d_{ij}^2\big)
-$$
+$$ K_{ij} = \exp\!\big(-\theta  d_{ij}^2\big) $$
 
 - $d_{ij}^2$ — the **squared genetic distance** between lines $i$ and $j$ (squared Euclidean
   distance between their marker vectors), scaled by its mean.
@@ -68,10 +64,7 @@ $\theta \in \{0.02,\ 1,\ 5\}$ (a "smooth", a "medium", and a "local" view) — a
 
 🧮 **KA model.**
 
-$$
-\mathbf y = \mathbf 1\mu + \mathbf u_1 + \mathbf u_2 + \mathbf u_3 + \mathbf e, \qquad
-\mathbf u_b \sim N(\mathbf 0,\ \mathbf K_b\,\sigma_b^2)
-$$
+$$ \mathbf y = \mathbf 1\mu + \mathbf u_1 + \mathbf u_2 + \mathbf u_3 + \mathbf e, \qquad \mathbf u_b \sim N(\mathbf 0,\ \mathbf K_b \sigma_b^2) $$
 
 with $\mathbf K_b = \exp(-\theta_b \mathbf D)$. The variance components $\sigma_b^2$ are learned
 from the data, so the model **decides how much smooth vs. local structure each trait needs** —
@@ -133,7 +126,7 @@ distances, but each is exactly one of these three "blur levels" — and KA blend
 
 ⚠️ **Common confusion — "+0.03 is tiny, why care?"** In genomic selection, small, *consistent*
 accuracy gains compound over many cycles of selection into real genetic gain (recall
-$\Delta G = i\,r\,\sigma_A$ — every bit of $r$ counts). A method that's *reliably* a hair better,
+$\Delta G = i r \sigma_A$ — every bit of $r$ counts). A method that's *reliably* a hair better,
 with no extra data cost, is worth adopting.
 
 ---
