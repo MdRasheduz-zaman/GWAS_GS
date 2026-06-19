@@ -10,7 +10,7 @@ You met heritability intuitively in Lesson 3. Now we make it precise enough to *
 
 ## 5.1 One gene, written as a number
 
-Take a single SNP with alleles, count copies of one allele → $x \in \{0,1,2\}$ (Lesson 2).
+Take a single SNP with alleles, count copies of one allele → $x \in \lbrace 0,1,2 \rbrace$ (Lesson 2).
 Suppose each copy adds, on average, a fixed amount $\alpha$ to the trait. Then that locus
 contributes:
 

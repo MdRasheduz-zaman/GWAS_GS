@@ -60,7 +60,7 @@ developed. Skim before an exam; look up while reading.
   model. (L8)
 - **GWAS** — tests each SNP for trait association; p-values, Manhattan plot. (L9)
 - **FarmCPU** — the iterative GWAS method (GAPIT3) used. (L9)
-- **Bonferroni** — strict significance threshold $0.05/\text{#SNPs}=2.16\times10^{-5}$. (L9)
+- **Bonferroni** — strict significance threshold $0.05/m=2.16\times10^{-5}$, where $m$ = number of SNPs. (L9)
 - **GWAS-assisted GP** — significant SNPs added as fixed effects; **hurt accuracy** here. (L10)
 - **NIRS** — near-infrared spectroscopy; 551-wavelength chemical fingerprint. (L11)
 - **RSI (regularized selection index)** — penalized-regression weighting of spectra into one

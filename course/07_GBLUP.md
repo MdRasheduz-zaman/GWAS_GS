@@ -83,9 +83,9 @@ Recall Lesson 5's two routes. Here's why they're the same.
 
 **Route A (RR-BLUP):** estimate every marker effect $\alpha_j$, but penalize their size:
 
-$$ \hat{\boldsymbol\alpha} = \arg\min_{\boldsymbol\alpha} \ \|\mathbf y - \mathbf Z\boldsymbol\alpha\|^2 + \lambda\|\boldsymbol\alpha\|^2 $$
+$$ \hat{\boldsymbol\alpha} = \arg\min_{\boldsymbol\alpha} \ \lVert\mathbf y - \mathbf Z\boldsymbol\alpha\rVert^2 + \lambda\lVert\boldsymbol\alpha\rVert^2 $$
 
-then $\hat{\mathbf g} = \mathbf Z\hat{\boldsymbol\alpha}$. The $\lambda\|\boldsymbol\alpha\|^2$
+then $\hat{\mathbf g} = \mathbf Z\hat{\boldsymbol\alpha}$. The $\lambda\lVert\boldsymbol\alpha\rVert^2$
 term — **ridge** — is what makes the impossible $p\gg n$ problem solvable: it forbids any single
 marker from taking a wild effect, spreading signal across all of them.
 

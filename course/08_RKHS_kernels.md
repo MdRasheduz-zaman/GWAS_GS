@@ -59,7 +59,7 @@ motivates the next trick.
 ## 8.3 Kernel Averaging (KA) — the authors' chosen method
 
 Instead of betting on one bandwidth, the authors fit **three** Gaussian kernels at once —
-$\theta \in \{0.02,\ 1,\ 5\}$ (a "smooth", a "medium", and a "local" view) — and let the model
+$\theta \in \lbrace 0.02, 1, 5 \rbrace$ (a "smooth", a "medium", and a "local" view) — and let the model
 **weight them automatically**:
 
 🧮 **KA model.**

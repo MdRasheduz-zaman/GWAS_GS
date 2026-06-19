@@ -137,8 +137,8 @@ many reads support the **reference** allele vs an **alternative** allele, then c
 
 🧮 **The genotype rule (the simplest honest version):**
 
-First the **alt fraction** $= \dfrac{\#\text{alt reads}}{\#\text{ref reads} + \#\text{alt reads}}$,
-then read off the **dosage**:
+First the **alt fraction** $= \dfrac{\text{alt reads}}{\text{ref reads} + \text{alt reads}}$ (each term
+is a *count* of reads), then read off the **dosage**:
 
 | alt fraction | dosage | genotype |
 |---|---|---|
