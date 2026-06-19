@@ -137,7 +137,14 @@ many reads support the **reference** allele vs an **alternative** allele, then c
 
 🧮 **The genotype rule (the simplest honest version):**
 
-$$ \text{alt fraction} = \frac{\#\text{alt reads}}{\#\text{ref reads} + \#\text{alt reads}}, \qquad \text{dosage} = \begin{cases} 0 & \text{frac} \le 0.15\ (\text{hom-ref, } AA)\\ 1 & 0.15 < \text{frac} < 0.85\ (\text{het, } Aa)\\ 2 & \text{frac} \ge 0.85\ (\text{hom-alt, } aa)\end{cases} $$
+First the **alt fraction** $= \dfrac{\#\text{alt reads}}{\#\text{ref reads} + \#\text{alt reads}}$,
+then read off the **dosage**:
+
+| alt fraction | dosage | genotype |
+|---|---|---|
+| ≤ 0.15 | **0** | hom-ref (AA) |
+| 0.15 – 0.85 | **1** | heterozygous (Aa) |
+| ≥ 0.85 | **2** | hom-alt (aa) |
 
 (too few reads → call it **missing**). Real callers like **NGSEP** (the paper) or `bcftools` use a
 genotype-*likelihood* model, but the underlying idea is exactly this: *reads voting on alleles.*

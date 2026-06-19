@@ -80,8 +80,7 @@ Now train GBLUP on Cycle 1 and predict Cycle 2, adding more Cycle-2 lines to tra
 | accuracy on remaining Cycle 2 | **0.13** | 0.21 | 0.22 | **0.23** | **0.33** |
 
 🧠 **Read the curve.** At **0%** (predict Cycle 2 purely from Cycle 1) accuracy is a feeble **0.13**
-— because the test lines have *no relatives* in training (look at the PCA gap; $\mathbf
-G_{\text{test,train}}\approx 0$). Each batch of Cycle-2 lines you add gives the remaining Cycle-2
+— because the test lines have *no relatives* in training (look at the PCA gap; $\mathbf G_{\text{test,train}}\approx 0$). Each batch of Cycle-2 lines you add gives the remaining Cycle-2
 lines *relatives* in the training set, and accuracy **climbs toward** the within-Cycle-1 ceiling
 (dashed line, 0.33) — but never quite reaches it on this budget.
 

@@ -89,11 +89,9 @@ then $\hat{\mathbf g} = \mathbf Z\hat{\boldsymbol\alpha}$. The $\lambda\|\boldsy
 term — **ridge** — is what makes the impossible $p\gg n$ problem solvable: it forbids any single
 marker from taking a wild effect, spreading signal across all of them.
 
-**Route B (GBLUP):** the conditional-mean formula in §7.2 using $\mathbf G = \mathbf Z\mathbf
-Z^\top/p$.
+**Route B (GBLUP):** the conditional-mean formula in §7.2 using $\mathbf G = \mathbf Z\mathbf Z^\top/p$.
 
-🧮 **They are algebraically identical predictions.** Substituting $\mathbf G=\mathbf Z\mathbf
-Z^\top/p$ into Route B reproduces Route A exactly (a standard linear-algebra identity, the
+🧮 **They are algebraically identical predictions.** Substituting $\mathbf G=\mathbf Z\mathbf Z^\top/p$ into Route B reproduces Route A exactly (a standard linear-algebra identity, the
 "kernel trick"). So:
 
 > **GBLUP = ridge regression where every SNP is shrunk equally.**
@@ -168,10 +166,8 @@ So master GBLUP and the rest of the paper is "GBLUP, plus one twist at a time."
 > model from scratch in `02_gblup_from_scratch.R` and confirmed it matches `rrBLUP` and `BGLR`.
 
 ## 7.7 What you should now be able to say
-- **GBLUP** models $\mathbf y=\mathbf 1\mu+\mathbf g+\mathbf e$ with $\mathbf g\sim N(\mathbf 0,
-  \mathbf G\sigma_g^2)$; it predicts unseen lines as a **relatedness-weighted blend of training
-  phenotypes** via $\hat{\mathbf g}_{\text{test}}=\mathbf G_{\text{test,train}}(\mathbf
-  G_{\text{train,train}}+\lambda\mathbf I)^{-1}(\mathbf y-\mu)$.
+- **GBLUP** models $\mathbf y=\mathbf 1\mu+\mathbf g+\mathbf e$ with $\mathbf g\sim N(\mathbf 0, \mathbf G\sigma_g^2)$; it predicts unseen lines as a **relatedness-weighted blend of training
+  phenotypes** via $\hat{\mathbf g}_{\text{test}}=\mathbf G_{\text{test,train}}(\mathbf G_{\text{train,train}}+\lambda\mathbf I)^{-1}(\mathbf y-\mu)$.
 - It needs **no phenotype** on the test line — only its **genotype-based relatedness**.
 - **GBLUP = ridge regression on markers** (equal shrinkage); the assumption is *many small equal
   effects*, ideal for polygenic traits.

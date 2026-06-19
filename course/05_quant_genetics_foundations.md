@@ -75,7 +75,18 @@ machinery). Run `code/toy_05_breeding_value.R`:
 multiplication, $\mathbf{g}=\mathbf{M}\boldsymbol{\alpha}$. Written out in full, the 5×10 genotype
 matrix times the 10×1 effect vector gives the 5×1 breeding-value vector:
 
-$$ \underbrace{\begin{bmatrix} 2&0&1&2&0&2&0&0&1&2\\ 0&0&2&2&0&0&1&2&1&0\\ 2&1&0&0&2&2&0&0&0&2\\ 0&2&2&1&0&0&2&2&0&0\\ 1&0&0&2&1&2&0&1&2&2 \end{bmatrix}}_{\mathbf{M} (5\times 10)} \underbrace{\begin{bmatrix}2\\0\\-1\\1\\0\\3\\0\\-2\\1\\0\end{bmatrix}}_{\boldsymbol{\alpha} (10\times 1)} = \underbrace{\begin{bmatrix}12\\-3\\10\\-5\\10\end{bmatrix}}_{\mathbf{g} (5\times 1)} $$
+Reading it as $\mathbf{M}\,(5\times10) \times \boldsymbol{\alpha}\,(10\times1) = \mathbf{g}\,(5\times1)$
+— each line's genotype **row** times the shared **effect column** gives that line's breeding value:
+
+| line $i$ | genotype row of $\mathbf{M}$ (SNP 1 → 10) | $g_i = \sum_j \alpha_j x_{ij}$ |
+|---|---|---|
+| **L1** | `2 0 1 2 0 2 0 0 1 2` | **12** |
+| **L2** | `0 0 2 2 0 0 1 2 1 0` | **−3** |
+| **L3** | `2 1 0 0 2 2 0 0 0 2` | **10** |
+| **L4** | `0 2 2 1 0 0 2 2 0 0` | **−5** |
+| **L5** | `1 0 0 2 1 2 0 1 2 2` | **10** |
+
+…with the **same** effect column $\boldsymbol{\alpha} = (2,\ 0,\ -1,\ 1,\ 0,\ 3,\ 0,\ -2,\ 1,\ 0)$ applied to every row.
 
 **How a matrix times a vector actually works:** each entry of $\mathbf{g}$ is the **dot product**
 of *one row* of $\mathbf{M}$ with the *whole column* $\boldsymbol\alpha$ — multiply them
