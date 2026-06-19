@@ -30,13 +30,17 @@ sibs that drifted apart). G is the *data-driven* upgrade of the pedigree relatio
 1. **Center & scale each SNP column** → matrix $\mathbf{Z}$. For SNP $j$ with mean $2p_j$ and
    SD $s_j$:
 
-   $$ Z_{ij} = \frac{M_{ij} - 2p_j}{s_j} $$
+```math
+Z_{ij} = \frac{M_{ij} - 2p_j}{s_j}
+```
 
    Centering removes the "average dose" so we measure *deviation* from the population; scaling
    puts every SNP on a comparable footing.
 2. **Cross-multiply and average over markers:**
 
-   $$ \boxed{ \mathbf{G} = \frac{\mathbf{Z}\mathbf{Z}^{\top}}{p} } \qquad (p = \text{number of markers}) $$
+```math
+\boxed{ \mathbf{G} = \frac{\mathbf{Z}\mathbf{Z}^{\top}}{p} } \qquad (p = \text{number of markers})
+```
 
 In R this is literally the line the authors wrote (and we reproduced):
 ```r
@@ -108,7 +112,11 @@ flowchart TD
 ### Pedigree expectation: the relationship matrix A (by hand)
 The **numerator relationship matrix A** is built by one rule applied top-down (the *tabular
 method*): for individual $i$ with parents $s,d$,
-$$A_{ij}=\tfrac12 (A_{js}+A_{jd}), \qquad A_{ii}=1+\tfrac12 A_{sd}$$
+
+```math
+A_{ij}=\tfrac12 (A_{js}+A_{jd}), \qquad A_{ii}=1+\tfrac12 A_{sd}
+```
+
 Unknown parents ⇒ treat as unrelated founders ($A=0$). This gives **expected** relationships:
 
 | pair | meaning | pedigree $A$ | kinship $A/2$ |

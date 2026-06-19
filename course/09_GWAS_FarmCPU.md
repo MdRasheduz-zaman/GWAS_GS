@@ -14,7 +14,9 @@ association with the trait. For SNP $j$:
 
 🧮 **The per-SNP model.**
 
-$$ \mathbf y = \mu + \underbrace{x_j \beta_j}_{\text{this SNP's effect}} + \underbrace{\mathbf{Q}\boldsymbol\gamma}_{\text{structure correction}} + \mathbf e $$
+```math
+\mathbf y = \mu + \underbrace{x_j \beta_j}_{\text{this SNP's effect}} + \underbrace{\mathbf{Q}\boldsymbol\gamma}_{\text{structure correction}} + \mathbf e
+```
 
 - $x_j$ — genotypes (0/1/2) at SNP $j$.
 - $\beta_j$ — its effect; **we test $H_0: \beta_j = 0$** and get a **p-value**.
@@ -40,7 +42,9 @@ threshold much stricter.
 
 🧮 **Bonferroni correction.**
 
-$$ \alpha_{\text{adj}} = \frac{0.05}{\text{number of SNPs}} = \frac{0.05}{2315} = 2.16\times10^{-5} $$
+```math
+\alpha_{\text{adj}} = \frac{0.05}{\text{number of SNPs}} = \frac{0.05}{2315} = 2.16\times10^{-5}
+```
 
 A SNP must beat *this* p-value to count. On the Manhattan plot it's the dashed line at
 $-\log_{10}(2.16\times10^{-5}) \approx 4.67$.

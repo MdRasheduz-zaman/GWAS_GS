@@ -14,7 +14,9 @@ Take a single SNP with alleles, count copies of one allele → $x \in \lbrace 0,
 Suppose each copy adds, on average, a fixed amount $\alpha$ to the trait. Then that locus
 contributes:
 
-$$ \text{contribution} = \alpha \cdot x $$
+```math
+\text{contribution} = \alpha \cdot x
+```
 
 - $x=0$: contributes $0$
 - $x=1$: contributes $\alpha$
@@ -39,7 +41,9 @@ contribution over all $p$ markers:
 
 🧮 **The genetic (breeding) value of line $i$:**
 
-$$ g_i  =  \sum_{j=1}^{p} \alpha_j   x_{ij} $$
+```math
+g_i  =  \sum_{j=1}^{p} \alpha_j   x_{ij}
+```
 
 - $x_{ij}$ — line $i$'s genotype (0/1/2) at marker $j$.
 - $\alpha_j$ — additive effect of marker $j$.
@@ -75,29 +79,27 @@ machinery). Run `code/toy_05_breeding_value.R`:
 multiplication, $\mathbf{g}=\mathbf{M}\boldsymbol{\alpha}$. Written out in full, the 5×10 genotype
 matrix times the 10×1 effect vector gives the 5×1 breeding-value vector:
 
-Reading it as $\mathbf{M}\,(5\times10) \times \boldsymbol{\alpha}\,(10\times1) = \mathbf{g}\,(5\times1)$
-— each line's genotype **row** times the shared **effect column** gives that line's breeding value:
+Each line's genotype **row** times the shared **effect column** $\boldsymbol{\alpha}$ gives that
+line's breeding value $g_i$:
 
-| line $i$ | genotype row of $\mathbf{M}$ (SNP 1 → 10) | $g_i = \sum_j \alpha_j x_{ij}$ |
-|---|---|---|
-| **L1** | `2 0 1 2 0 2 0 0 1 2` | **12** |
-| **L2** | `0 0 2 2 0 0 1 2 1 0` | **−3** |
-| **L3** | `2 1 0 0 2 2 0 0 0 2` | **10** |
-| **L4** | `0 2 2 1 0 0 2 2 0 0` | **−5** |
-| **L5** | `1 0 0 2 1 2 0 1 2 2` | **10** |
-
-…with the **same** effect column $\boldsymbol{\alpha} = (2,\ 0,\ -1,\ 1,\ 0,\ 3,\ 0,\ -2,\ 1,\ 0)$ applied to every row.
+```math
+\underbrace{\begin{bmatrix} 2&0&1&2&0&2&0&0&1&2\\ 0&0&2&2&0&0&1&2&1&0\\ 2&1&0&0&2&2&0&0&0&2\\ 0&2&2&1&0&0&2&2&0&0\\ 1&0&0&2&1&2&0&1&2&2 \end{bmatrix}}_{\mathbf{M}\ (5\times 10)} \underbrace{\begin{bmatrix} 2\\ 0\\ -1\\ 1\\ 0\\ 3\\ 0\\ -2\\ 1\\ 0 \end{bmatrix}}_{\boldsymbol{\alpha}\ (10\times 1)} = \underbrace{\begin{bmatrix} 12\\ -3\\ 10\\ -5\\ 10 \end{bmatrix}}_{\mathbf{g}\ (5\times 1)}
+```
 
 **How a matrix times a vector actually works:** each entry of $\mathbf{g}$ is the **dot product**
 of *one row* of $\mathbf{M}$ with the *whole column* $\boldsymbol\alpha$ — multiply them
 position-by-position, then add. Row **L1** with $\boldsymbol\alpha$ (showing only the nonzero terms):
 
-$$ g_{\text{L1}}=\!\!\sum_{j=1}^{10}\alpha_j x_{\text{L1},j} =\underbrace{2{\cdot}2}_{\text{SNP1}}+\underbrace{(-1){\cdot}1}_{\text{SNP3}}+\underbrace{1{\cdot}2}_{\text{SNP4}}+\underbrace{3{\cdot}2}_{\text{SNP6}}+\underbrace{1{\cdot}1}_{\text{SNP9}}=4-1+2+6+1=\mathbf{12} $$
+```math
+g_{\text{L1}}=\!\!\sum_{j=1}^{10}\alpha_j x_{\text{L1},j} =\underbrace{2{\cdot}2}_{\text{SNP1}}+\underbrace{(-1){\cdot}1}_{\text{SNP3}}+\underbrace{1{\cdot}2}_{\text{SNP4}}+\underbrace{3{\cdot}2}_{\text{SNP6}}+\underbrace{1{\cdot}1}_{\text{SNP9}}=4-1+2+6+1=\mathbf{12}
+```
 
 And row **L4**, to see a *negative* breeding value appear (its alt alleles sit mostly on the
 penalty SNPs, $\alpha_3=-1$, $\alpha_8=-2$):
 
-$$ g_{\text{L4}}=\underbrace{(-1){\cdot}2}_{\text{SNP3}}+\underbrace{1{\cdot}1}_{\text{SNP4}}+\underbrace{(-2){\cdot}2}_{\text{SNP8}}=-2+1-4=\mathbf{-5} $$
+```math
+g_{\text{L4}}=\underbrace{(-1){\cdot}2}_{\text{SNP3}}+\underbrace{1{\cdot}1}_{\text{SNP4}}+\underbrace{(-2){\cdot}2}_{\text{SNP8}}=-2+1-4=\mathbf{-5}
+```
 
 Repeat for all five rows and you read off the result vector
 $\mathbf{g}=[ 12,\ -3,\ 10,\ -5,\ 10 ]^{\top}$. **That vector is the ranking a breeder wants** —
@@ -124,11 +126,15 @@ $y$ and the markers.
 
 🧮 **The decomposition.**
 
-$$ \underbrace{y_i}_{\text{what we measure}}  =  \underbrace{\mu}_{\text{mean}}  +  \underbrace{g_i}_{\text{genetics (signal)}}  +  \underbrace{e_i}_{\text{environment (noise)}} $$
+```math
+\underbrace{y_i}_{\text{what we measure}}  =  \underbrace{\mu}_{\text{mean}}  +  \underbrace{g_i}_{\text{genetics (signal)}}  +  \underbrace{e_i}_{\text{environment (noise)}}
+```
 
 Taking variances across lines (signal and noise independent):
 
-$$ \sigma_P^2  =  \sigma_g^2  +  \sigma_e^2 $$
+```math
+\sigma_P^2  =  \sigma_g^2  +  \sigma_e^2
+```
 
 total **phenotypic** variance = **genetic** variance + **environmental** variance.
 
@@ -141,7 +147,11 @@ different plots) is environmental. With 6 toy lines × 8 reps:
 ![toy variance components](../figures/23_toy_variance_components.png)
 
 🔬 From the toy (panel A): $\sigma_g^2 = 8.4$, $\sigma_e^2 = 4.3$, so $\sigma_P^2 = 12.7$ and
-$$H^2 = \frac{\sigma_g^2}{\sigma_g^2+\sigma_e^2} = \frac{8.4}{12.7} = 0.66.$$
+
+```math
+H^2 = \frac{\sigma_g^2}{\sigma_g^2+\sigma_e^2} = \frac{8.4}{12.7} = 0.66.
+```
+
 🔭 **Zoom out:** the study's SpATS model (Lesson 3) does exactly this partition for 415 lines
 across a noisy field — replication + checks let it separate genetics from "which plot you sat in,"
 then reports a (generalized) heritability per trait.
@@ -152,7 +162,9 @@ then reports a (generalized) heritability per trait.
 
 🧮 **Narrow-sense heritability:**
 
-$$ h^2  =  \frac{\sigma_A^2}{\sigma_P^2}  =  \frac{\text{additive genetic variance}}{\text{total phenotypic variance}} $$
+```math
+h^2  =  \frac{\sigma_A^2}{\sigma_P^2}  =  \frac{\text{additive genetic variance}}{\text{total phenotypic variance}}
+```
 
 **The three heritabilities, side by side:**
 
@@ -176,7 +188,11 @@ heritable part). The **gaps** between the points and the line are **dominance de
 ![toy additive vs dominance](../figures/24_toy_additive_dominance.png)
 
 🔬 With $a=10$, $d=4$, allele freq $p=0.6$:
-$$\sigma_A^2 = 2pq [a+d(q-p)]^2 = 40.6, \qquad \sigma_D^2 = (2pqd)^2 = 3.7$$
+
+```math
+\sigma_A^2 = 2pq [a+d(q-p)]^2 = 40.6, \qquad \sigma_D^2 = (2pqd)^2 = 3.7
+```
+
 So the locus is **92% additive**. The additive part ($\sigma_A^2$) goes into $h^2$ and **passes to
 offspring**; the dominance part ($\sigma_D^2$) inflates $H^2$ but **doesn't breed true** (it depends
 on getting the *pair* of alleles together again). That gap is precisely why $h^2 \le H^2$.
@@ -193,7 +209,9 @@ Read $h^2$ three equivalent ways:
 
 🌱 **Breeding payoff — the breeder's equation.** Genetic gain per cycle is
 
-$$ \Delta G  =  i   h^2   \sigma_P \quad\text{(mass selection form)} \quad\Rightarrow\quad \Delta G = i r \sigma_A \ \text{(general form)} $$
+```math
+\Delta G  =  i   h^2   \sigma_P \quad\text{(mass selection form)} \quad\Rightarrow\quad \Delta G = i r \sigma_A \ \text{(general form)}
+```
 
 where $i$ = selection intensity (how picky you are), $r$ = accuracy of selection, $\sigma_A$ =
 additive SD. **This equation is the *reason genomic prediction exists*:** genomic selection
@@ -206,7 +224,11 @@ Everything in this study is ultimately an attempt to push $r$ up.
 The breeder's equation in its most tangible form is **$R = h^2 S$**: select the best, and the next
 generation moves by the *heritable fraction* of how special your selections were. Toy: a population
 with mean 50, $h^2=0.5$; keep the **top 20%** (panel C of the figure above):
-$$S = \bar y_{\text{selected}} - \bar y_{\text{all}} = 11.2, \qquad R = h^2 S = 0.5 \times 11.2 = 5.6$$
+
+```math
+S = \bar y_{\text{selected}} - \bar y_{\text{all}} = 11.2, \qquad R = h^2 S = 0.5 \times 11.2 = 5.6
+```
+
 so the next generation's mean rises from **50 → 55.6**. ⚠️ Note the lever: with $h^2=0.5$ you only
 *keep half* of the 11.2 you selected for — **low heritability throttles response**, which is the
 breeder's daily reality and the reason genomic prediction (raising the *accuracy* term $r$) matters.

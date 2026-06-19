@@ -36,15 +36,16 @@ Both secondaries are exactly the kind of cheap, heritable, correlated traits the
 🧮 **Multi-trait GBLUP.** Stack the two traits' phenotypes and model their breeding values as
 **correlated**:
 
-$$ \binom{\mathbf y_1}{\mathbf y_2} = \boldsymbol\mu + \binom{\mathbf g_1}{\mathbf g_2} + \mathbf e, \qquad \binom{\mathbf g_1}{\mathbf g_2} \sim N\!\left(\mathbf 0,\ \mathbf{\Sigma}_g \otimes \mathbf G\right) $$
+```math
+\begin{bmatrix} \mathbf y_1 \\ \mathbf y_2 \end{bmatrix} = \boldsymbol\mu + \begin{bmatrix} \mathbf g_1 \\ \mathbf g_2 \end{bmatrix} + \mathbf e, \qquad \begin{bmatrix} \mathbf g_1 \\ \mathbf g_2 \end{bmatrix} \sim N\!\left(\mathbf 0,\ \mathbf{\Sigma}_g \otimes \mathbf G\right)
+```
 
-(the $\binom{\cdot}{\cdot}$ here just means the two traits **stacked** into one tall vector.) The new
-ingredient is the **genetic covariance matrix between traits**, $\mathbf{\Sigma}_g$:
+(the stacked brackets just mean the two traits put into one tall vector.) The new ingredient is the
+**genetic covariance matrix between traits**, $\mathbf{\Sigma}_g$:
 
-| $\mathbf{\Sigma}_g$ | trait 1 | trait 2 |
-|---|---|---|
-| **trait 1** | var(g₁) | cov(g₁,g₂) |
-| **trait 2** | cov(g₁,g₂) | var(g₂) |
+```math
+\mathbf{\Sigma}_g = \begin{bmatrix} \sigma^2_{g_1} & \sigma_{g_{12}} \\ \sigma_{g_{12}} & \sigma^2_{g_2} \end{bmatrix}
+```
 
 - $\sigma_{g_{12}}$ — the **genetic covariance** between trait 1 and trait 2. **This is the
   channel through which trait 2 helps trait 1.** If it's 0, MT collapses back to ST (no help).

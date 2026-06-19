@@ -20,6 +20,7 @@ function render(srcRaw){
   const store = [];
   const keep = s => '@@KEEP' + (store.push(s)-1) + 'KEEP@@';   // collision-proof token
   let src = srcRaw
+    .replace(/```math\n([\s\S]*?)```/g, (_,m)=> keep('<div class="math-display">$$'+m.trim()+'$$</div>'))
     .replace(/```mermaid\n([\s\S]*?)```/g, (_,code)=> keep('<div class="mermaid">'+code.trim()+'</div>'))
     .replace(/\$\$([\s\S]*?)\$\$/g, (_,m)=> keep('<div class="math-display">$$'+m+'$$</div>'))
     .replace(/\$([^\$\n]+?)\$/g, (_,m)=> keep('<span class="math-inline">$'+m+'$</span>'));

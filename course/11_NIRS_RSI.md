@@ -30,7 +30,9 @@ spectrum predicts its trait:
 
 🧮 **Selection index.**
 
-$$ \text{RSI}_i = \sum_{k=1}^{551} \beta_k   x_{ik} = \mathbf{x}_i^\top \boldsymbol\beta $$
+```math
+\text{RSI}_i = \sum_{k=1}^{551} \beta_k   x_{ik} = \mathbf{x}_i^\top \boldsymbol\beta
+```
 
 — collapse 551 numbers into **one** index per line, tuned to correlate with the target trait
 (e.g., canning appearance).
@@ -48,7 +50,9 @@ Lopez-Cruz et al. (2020):
 
 🧮
 
-$$ \hat{\boldsymbol\beta} = \big(\mathbf{P}_x + \lambda\mathbf{I}\big)^{-1} \mathbf{G}_{x,y} $$
+```math
+\hat{\boldsymbol\beta} = \big(\mathbf{P}_x + \lambda\mathbf{I}\big)^{-1} \mathbf{G}_{x,y}
+```
 
 - $\mathbf{P}_x$ — the variance–covariance matrix of the wavelengths (how spectra co-vary).
 - $\mathbf{G}_{x,y}$ — the genetic covariances between each wavelength and the target trait

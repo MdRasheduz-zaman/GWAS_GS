@@ -14,7 +14,9 @@ In GBLUP we used $\mathbf G$ to say how similar lines are. A **kernel** $\mathbf
 rule. Swap $\mathbf G$ for $\mathbf K$ in the exact same mixed model and you have **RKHS**
 (Reproducing Kernel Hilbert Space) regression:
 
-$$ \mathbf y = \mathbf 1\mu + \mathbf u + \mathbf e, \qquad \mathbf u \sim N(\mathbf 0,\ \mathbf K \sigma^2) $$
+```math
+\mathbf y = \mathbf 1\mu + \mathbf u + \mathbf e, \qquad \mathbf u \sim N(\mathbf 0,\ \mathbf K \sigma^2)
+```
 
 🧠 **Intuition.** GBLUP's G measures similarity as a *straight-line* (linear) correlation across
 SNPs. A kernel can measure similarity in a *curved* way — "very similar genotypes count as
@@ -29,7 +31,9 @@ The authors use the **Gaussian (RBF) kernel**. For lines $i$ and $j$:
 
 🧮
 
-$$ K_{ij} = \exp\!\big(-\theta  d_{ij}^2\big) $$
+```math
+K_{ij} = \exp\!\big(-\theta  d_{ij}^2\big)
+```
 
 - $d_{ij}^2$ — the **squared genetic distance** between lines $i$ and $j$ (squared Euclidean
   distance between their marker vectors), scaled by its mean.
@@ -64,7 +68,9 @@ $\theta \in \lbrace 0.02, 1, 5 \rbrace$ (a "smooth", a "medium", and a "local" v
 
 🧮 **KA model.**
 
-$$ \mathbf y = \mathbf 1\mu + \mathbf u_1 + \mathbf u_2 + \mathbf u_3 + \mathbf e, \qquad \mathbf u_b \sim N(\mathbf 0,\ \mathbf K_b \sigma_b^2) $$
+```math
+\mathbf y = \mathbf 1\mu + \mathbf u_1 + \mathbf u_2 + \mathbf u_3 + \mathbf e, \qquad \mathbf u_b \sim N(\mathbf 0,\ \mathbf K_b \sigma_b^2)
+```
 
 with $\mathbf K_b = \exp(-\theta_b \mathbf D)$. The variance components $\sigma_b^2$ are learned
 from the data, so the model **decides how much smooth vs. local structure each trait needs** —

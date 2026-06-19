@@ -51,7 +51,9 @@ Keeping these separate is what makes the evaluation honest.
 
 🧮 **Prediction accuracy** in this study =
 
-$$ r = \text{cor}\big(\hat y_{\text{test}},\ y_{\text{test}}\big) $$
+```math
+r = \text{cor}\big(\hat y_{\text{test}},\ y_{\text{test}}\big)
+```
 
 the **Pearson correlation** between predicted and observed values on the held-out lines.
 
