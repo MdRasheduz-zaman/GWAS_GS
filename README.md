@@ -62,3 +62,11 @@ guide, including how to run the authors' original cluster scripts.
 > when it is both stable and genuinely correlated** with the target. Correlated traits (multi-trait
 > models) delivered; GWAS-as-fixed-effects and NIRS did not. For polygenic traits, GBLUP's humble
 > "shrink everything equally" is hard to beat.
+
+## License
+This course (the lessons, code, and figures in this repository) is released under the
+**[MIT License](LICENSE)** — free to use, adapt, and share with attribution.
+
+Not covered by this license: the **original study** by Izquierdo, Wright & Cichy (the published
+article and the upstream data/code in the gitignored `repo/`), which remain under their own terms —
+see the DOI and the authors' GitHub repository linked above.
