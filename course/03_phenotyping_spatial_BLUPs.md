@@ -34,6 +34,15 @@ protects genetic gain from being wasted on noise.
   the *same* check varies across the field, the model learns the field's gradient.
 - Plots are **4-row, 50-cm spacing, trimmed to 4.5 m**; the center 2 rows are harvested.
 
+![incomplete (2018) vs complete (2019) block designs, with the 3 checks in every block](../figures/31_block_designs.png)
+
+The whole vocabulary of 3.2 lives in one picture. A **plot** is a single coloured cell.
+A **block** is a group of plots (the thick outlines). In **2018** the blocks were *incomplete* —
+each one too small to hold the whole set, so any given line shows up in only **some** blocks
+(follow the red boxes: line L1 appears in two *different* small blocks). In **2019** the blocks
+were *complete*: each big block (**Rep I**, **Rep II**) carries **every line once**. In both years
+the three **checks** — Eclipse (E), Zorro (Z), Zenith (N) — recur in *every* block.
+
 🧬 **Why replication even works here — the selfing payoff.** Replication only makes sense because a
 bean **line is a fixed, homozygous genotype** (Lesson 1: selfed to F6, ~97% of loci fixed). Growing
 "line X" in two plots is growing the *genetically same individual twice* — so the two plots differ
@@ -44,6 +53,16 @@ be genetically identical and this clean separation would blur.
 ⚠️ **Common confusion — replication vs. checks.** *Replication* (growing a line more than once)
 averages out noise for *that* line. *Checks* (a few genotypes grown many times everywhere) map
 the *shape* of the field's gradient so it can be subtracted from *all* lines. You need both.
+
+![one 4-row plot (harvest the centre 2), and the chain from plot to block to checks to model to BLUP](../figures/32_plot_and_pipeline.png)
+
+🔗 **How it all connects (left → right).** Each **plot** is 4 rows wide, but only the **centre 2
+rows are harvested** (the outer rows are guard rows that catch border effects) — that gives *one
+raw number per plot*. That number is part genetics, part "where the plot sat." The design pieces
+then feed the model: **blocks** and **checks** tell SpATS the *shape* of the field, **replication**
+lets it average a line's good and bad spots, and the **2-D spline** mops up the smooth gradient.
+Out the far end comes the **BLUP** — one fair genetic value per line, the clean phenotype every
+later lesson predicts.
 
 ---
 

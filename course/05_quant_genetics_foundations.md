@@ -49,6 +49,24 @@ g_i  =  \sum_{j=1}^{p} \alpha_j   x_{ij}
 - $\alpha_j$ — additive effect of marker $j$.
 - $g_i$ — line $i$'s total **breeding value**: the sum of all its allele "prices".
 
+🧬 **Where does $x_{ij}$ actually come from? Read it off the DNA.** The symbols feel abstract
+until you see the molecule they describe. A line is **diploid**: it carries **two copies** of each
+chromosome (one inherited from each parent), and each copy is a DNA double-strand. At a SNP, one
+allele helps the trait — call it the **effect allele** (red below). $x_{ij}$ is simply **how many
+red copies line $i$ carries at SNP $j$**, counted across its two chromosome copies → $0$, $1$, or
+$2$. Multiply each count by the per-copy effect $\alpha_j$, add across SNPs, and you have the
+breeding value $g_i$:
+
+![SNPs on the DNA to breeding value](../figures/33_snp_to_breeding_value.png)
+
+Trace the three indices through the picture: **$i$** picks the *line* (a whole plant — L1 on top,
+L2 below); **$j$** picks the *SNP* (a position along the chromosome — the four labelled loci);
+and **$x_{ij}$** is what you *read* at their intersection — the red-allele count in that line's
+dosage box. The effects $\alpha_j$ sit **once** under the shared chromosome axis (they belong to
+the SNP, not the line), so both lines reuse the same $\alpha$. L1 stacks its copies on the
+helpful alleles → $g=11$ (keep); L2 lands on the penalty SNP → $g=-3$ (cull). That contrast *is*
+what a breeder wants to rank by.
+
 In matrix form for all lines at once: $\mathbf{g} = \mathbf{M}\boldsymbol{\alpha}$, where
 $\mathbf{M}$ is the 415 × 2,315 marker matrix and $\boldsymbol{\alpha}$ the vector of effects.
 
@@ -230,16 +248,19 @@ Everything in this study is ultimately an attempt to push $r$ up.
 ### 🧸 Toy first — selection differential $S$ → response $R$ (`code/toy_05b_quantgen.R`)
 
 The breeder's equation in its most tangible form is **$R = h^2 S$**: select the best, and the next
-generation moves by the *heritable fraction* of how special your selections were. Toy: a population
-with mean 50, $h^2=0.5$; keep the **top 20%** (panel C of the figure above):
+generation moves by the *heritable fraction* of how special your selections were. **We reuse the
+*same* toy as panel A** — its mean ($\bar y = 8.0$), its spread ($\sigma_P = \sqrt{12.7} = 3.6$), and
+its heritability ($h^2 \approx H^2 = 0.66$, the toy being near-additive) — and just keep the **top
+20%** (panel B of the figure above):
 
 ```math
-S = \bar y_{\text{selected}} - \bar y_{\text{all}} = 11.2, \qquad R = h^2 S = 0.5 \times 11.2 = 5.6
+S = \bar y_{\text{selected}} - \bar y_{\text{all}} = 5.0, \qquad R = h^2 S = 0.66 \times 5.0 = 3.3
 ```
 
-so the next generation's mean rises from **50 → 55.6**. ⚠️ Note the lever: with $h^2=0.5$ you only
-*keep half* of the 11.2 you selected for — **low heritability throttles response**, which is the
-breeder's daily reality and the reason genomic prediction (raising the *accuracy* term $r$) matters.
+so the next generation's mean rises from **8.0 → 11.3**. ⚠️ Note the lever: with $h^2=0.66$ you only
+*keep two-thirds* of the 5.0 you selected for — the missing third was environmental luck that doesn't
+inherit. **Lower heritability throttles response harder**, which is the breeder's daily reality and the
+reason genomic prediction (raising the *accuracy* term $r$) matters.
 
 > 🔬 **In the data — we measured it (`code/07_heritability_accuracy.R`).** For every 2018 trait we
 > estimated genomic heritability $h^2_g$ (from GBLUP variance components) *and* the GBLUP

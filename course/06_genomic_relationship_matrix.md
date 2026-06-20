@@ -17,7 +17,7 @@ measures the **genomic relationship** (realized kinship) between lines $i$ and $
 - The **diagonal** $G_{ii}$ ≈ how inbred/typical line $i$ is (≈1 on average).
 
 🧠 **Intuition.** G is a *friendship-by-DNA* map. Pedigree breeders drew family trees to guess
-relatedness ("these two are cousins → ~12.5% shared"). Markers let us **measure** it directly —
+relatedness (e.g. "these two are cousins → ~12.5% shared"). Markers let us **measure** it directly —
 and catch surprises a pedigree misses (two "unrelated" lines that happen to share a lot, or full
 sibs that drifted apart). G is the *data-driven* upgrade of the pedigree relationship matrix.
 
@@ -36,6 +36,7 @@ Z_{ij} = \frac{M_{ij} - 2p_j}{s_j}
 
    Centering removes the "average dose" so we measure *deviation* from the population; scaling
    puts every SNP on a comparable footing.
+   
 2. **Cross-multiply and average over markers:**
 
 ```math
@@ -48,10 +49,21 @@ Z <- scale(M)              # center + scale every SNP
 G <- tcrossprod(Z) / ncol(M)   # Z Z' / p
 ```
 
-🧠 **Why this *is* relatedness.** $G_{ij} = \frac{1}{p}\sum_j Z_{ij}Z_{kj}$ is just the **average
-product of standardized genotypes** across all SNPs — i.e. how *correlated* lines $i$ and $j$
-are across the genome. If they tend to be high together and low together at the same SNPs, the
-products are positive and pile up → big $G_{ij}$. It's a correlation in disguise.
+🧠 **Why this *is* relatedness.** Writing $i,k$ for the **two lines** and $j$ for the **SNP**
+(the same $j$ as in $Z_{ij}$, so the summation runs over markers), one entry is
+
+```math
+G_{ik} = \frac{1}{p}\sum_{j=1}^{p} Z_{ij}\,Z_{kj}
+```
+
+— just the **average product of standardized genotypes** across all SNPs, i.e. how *correlated*
+lines $i$ and $k$ are across the genome. If they tend to be high together and low together at the
+same SNPs, the products are positive and pile up → big $G_{ik}$. It's a correlation in disguise.
+
+> 📝 **On the indices.** In $M_{ij}$ and $Z_{ij}$ the second subscript $j$ is the **SNP**, so a
+> single relatedness entry needs a *third* letter for the second line — hence $G_{ik}$, summed over
+> markers $j$. (Earlier, $G_{ij}$ in §6.1 just meant "the entry in row $i$, column $j$ of the
+> table"; here we make the marker sum explicit, so the line pair is $i,k$.)
 
 ---
 
@@ -62,22 +74,45 @@ Take a toy with 4 lines and 3 SNPs (we ran this in R):
 ```
 M (0/1/2):              Z (centered+scaled):        G = ZZ'/p:
    SNP1 SNP2 SNP3           SNP1  SNP2  SNP3            L1    L2    L3    L4
-L1   2    2    0      L1   0.87  0.87 -0.87     L1   0.75  0.25 -0.75 -0.25
-L2   2    0    0      L2   0.87 -0.87 -0.87     L2   0.25  0.75 -0.25 -0.75
-L3   0    0    2      L3  -0.87 -0.87  0.87     L3  -0.75 -0.25  0.75  0.25
-L4   0    2    2      L4  -0.87  0.87  0.87     L4  -0.25 -0.75  0.25  0.75
+L1   2    2    2      L1   0.87  1.22  0.87     L1   1.00  0.50 -0.50 -1.00
+L2   2    1    2      L2   0.87  0.00  0.87     L2   0.50  0.50 -0.50 -0.50
+L3   1    1    0      L3  -0.87  0.00 -0.87     L3  -0.50 -0.50  0.50  0.50
+L4   1    0    0      L4  -0.87 -1.22 -0.87     L4  -1.00 -0.50  0.50  1.00
 ```
 
-Read the result like a breeder:
-- **$G_{12}=0.25$** (L1 vs L2): they match at SNP1 (both 2) and SNP3 (both 0) but differ at
-  SNP2 → mildly related. ✔ makes sense.
-- **$G_{13}=-0.75$** (L1 vs L3): opposite at *every* SNP → strongly *un*alike, below average. ✔
-- **$G_{11}=0.75$** (diagonal): L1's relationship with itself = how far it sits from the
+The three SNPs deliberately have **different allele frequencies**, so each gets its own mean
+$2p_j$ and SD $s_j$ — and a heterozygote (dose 1) is *not* always "neutral":
+
+| SNP $j$ | doses (col) | mean $2p_j$ | $\sum_i (M_{ij}-2p_j)^2$ | $\div(n{-}1)=\div3$ | $s_j=\sqrt{\,}$ |
+|---|---|---|---|---|---|
+| 1 | 2,2,1,1 | 1.50 | 1.00 | 0.333 | **0.58** |
+| 2 | 2,1,1,0 | 1.00 | 2.00 | 0.667 | **0.82** |
+| 3 | 2,2,0,0 | 1.00 | 4.00 | 1.333 | **1.15** |
+
+(The same mean can give different $s_j$: SNP2 and SNP3 both center at 1.0, but SNP3's all-or-nothing
+doses spread wider, so $s_3>s_2$.)
+
+🖼️ **Watch the two equations run on this toy** — each symbol below points to a piece of the toy
+above. Step 1 shows **how $s_j$ is built for every SNP**, then turns a genotype $M_{ij}$ into a
+standardized $Z_{ij}$ (one cell worked out, plus the heterozygote cases). Step 2 takes **two lines'
+$Z$-rows** ($i=1$ and $k=2$), multiplies them SNP-by-SNP, sums over the $p=3$ markers $j$, and
+divides by $p$ — giving the single entry $G_{12}=0.50$. The extreme case ($G_{14}=-1.00$) shows what
+"opposite at every SNP" looks like:
+
+![building G from the toy, step by step](../figures/35_G_construction.png)
+
+So $G_{ik}=\frac{1}{p}\sum_j Z_{ij}Z_{kj}$ is literally "**slide line $i$'s standardized row
+against line $k$'s, multiply, average**." Now read the result like a breeder:
+- **$G_{12}=0.50$** (L1 vs L2): they match at SNP1 and SNP3 (both 2); at SNP2 L2 is a
+  **heterozygote** (dose 1) which sits *exactly* at the mean ($2p_2=1$) → $Z=0$ → that SNP adds
+  nothing → still clearly related. ✔
+- **$G_{14}=-1.00$** (L1 vs L4): opposite at *every* SNP → maximally *un*alike. ✔
+- **$G_{11}=1.00$** (diagonal): L1's relationship with itself = how far it sits from the
   population average across SNPs.
+- ⚠️ **A heterozygote isn't automatically $Z=0$.** At SNP1 ($2p_1=1.5$) a dose-1 line (L3, L4)
+  gives $Z=(1-1.5)/0.58=-0.87$ — *below* average — because the population leans toward dose 2.
 
-That's the whole idea. The same toy as a **color heatmap** (run via `code/`):
-
-![toy G matrix](../figures/13_toy_G_matrix.png)
+That's the whole idea — the colour heatmap on the right of the figure above *is* this toy G.
 
 🔭 **Zoom out:** the real G is this exact picture at **415 × 415** — a giant heatmap whose red
 blocks are families of related lines and blue regions are unrelated pairs (we draw the real one in
